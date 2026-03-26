@@ -7,12 +7,12 @@ namespace CSL_SimpleMetrics.Logging
     {
         public static void Log(string message, LogLevelEnum logLevel = LogLevelEnum.Info)
         {
-            Debug.Log($"[CSL-SimpleMetrics][{logLevel}] {message}");
+            Debug.Log($"[{logLevel}] {message}");
         }
 
         public static void LogException(string message, Exception ex)
         {
-            Debug.LogError($"[CSL-SimpleMetrics][{LogLevelEnum.Error}] {message}: {ex.Message}");
+            Debug.LogError($"[{LogLevelEnum.Error}] {message}: {ex.Message}");
         }
     }
 }

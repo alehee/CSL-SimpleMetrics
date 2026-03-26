@@ -54,15 +54,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviours\Manager.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogLevelEnum.cs" />
     <Compile Include="SimpleMetricsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Behaviours\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\$(SolutionName)"
