@@ -58,6 +58,9 @@
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogLevelEnum.cs" />
+    <Compile Include="Models\Metric.cs" />
+    <Compile Include="Models\MetricsBulk.cs" />
+    <Compile Include="Services\MetricsService.cs" />
     <Compile Include="SimpleMetricsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

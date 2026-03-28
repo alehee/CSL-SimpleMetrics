@@ -24,6 +24,7 @@ namespace CSL_SimpleMetrics.Extensions
         public override void OnLevelUnloading()
         {
             var objectsToDestroy = new List<GameObject> {
+                // If you are adding more game objects, add them here to be destroyed on unload.
                 _managerGameObject
             };
 
@@ -31,6 +32,7 @@ namespace CSL_SimpleMetrics.Extensions
             {
                 if (objectsToDestroy[i] != null)
                 {
+                    Logger.Log($"Destroying game object: {objectsToDestroy[i].name}");
                     UnityEngine.Object.Destroy(objectsToDestroy[i].gameObject);
                 }
             }

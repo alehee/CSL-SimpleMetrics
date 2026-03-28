@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using CSL_SimpleMetrics.Services;
+using UnityEngine;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
 
 namespace CSL_SimpleMetrics.Behaviours
@@ -10,6 +11,13 @@ namespace CSL_SimpleMetrics.Behaviours
         private float _timer;
         private float _interval = 2f; // Seconds
 
+        private MetricsService metricsService;
+
+        public void Start()
+        {
+            metricsService = MetricsService.GetInstance();
+        }
+
         public void Update()
         {
             if (_timer >= _interval)
@@ -17,6 +25,7 @@ namespace CSL_SimpleMetrics.Behaviours
                 _timer = 0f;
                 // Update behaviour
                 Logger.Log("Updating behaviour...");
+                Logger.Log(metricsService.GetElectricityMetricString());
             }
 
             _timer += Time.deltaTime;
