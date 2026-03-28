@@ -23,8 +23,8 @@ namespace CSL_SimpleMetrics.Behaviours
             if (_timer >= _interval)
             {
                 _timer = 0f;
-                // Update behaviour
-                Logger.Log("Updating behaviour...");
+
+                metricsService.UpdateCapacityAndConsumption();
                 Logger.Log(metricsService.GetElectricityMetricString());
             }
 

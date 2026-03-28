@@ -1,4 +1,5 @@
-﻿using CSL_SimpleMetrics.Models;
+﻿using ColossalFramework;
+using CSL_SimpleMetrics.Models;
 
 namespace CSL_SimpleMetrics.Services
 {
@@ -6,10 +7,13 @@ namespace CSL_SimpleMetrics.Services
     {
         private static MetricsService _instance;
 
+        private DistrictManager _districtManager;
         private Metric ElectricityMetric;
 
         private MetricsService()
         {
+            _districtManager = Singleton<DistrictManager>.instance;
+
             // Adjust to all metrics and remove hardcoded values
             ElectricityMetric = new Metric
             {
@@ -25,6 +29,18 @@ namespace CSL_SimpleMetrics.Services
                 _instance = new MetricsService();
             }
             return _instance;
+        }
+
+        public void UpdateCapacityAndConsumption()
+        {
+            District district = _districtManager.m_districts.m_buffer[0];
+
+            // Example: Get electricity
+            ElectricityMetric = new Metric
+            {
+                Capacity = district.GetElectricityCapacity(),
+                Consumption = district.GetElectricityConsumption()
+            };
         }
 
         public string GetElectricityMetricString()
