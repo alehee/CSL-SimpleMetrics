@@ -5,13 +5,10 @@ namespace CSL_SimpleMetrics.Behaviours
 {
     public class Manager : MonoBehaviour
     {
+        public static string Name => "SimpleMetricsManager";
+
         private float _timer;
         private float _interval = 2f; // Seconds
-
-        public void Start()
-        {
-
-        }
 
         public void Update()
         {
