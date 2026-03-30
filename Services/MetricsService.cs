@@ -1,5 +1,7 @@
 ﻿using ColossalFramework;
+using CSL_SimpleMetrics.Logging;
 using CSL_SimpleMetrics.Models;
+using System.Collections.Generic;
 
 namespace CSL_SimpleMetrics.Services
 {
@@ -8,18 +10,12 @@ namespace CSL_SimpleMetrics.Services
         private static MetricsService _instance;
 
         private DistrictManager _districtManager;
-        private Metric ElectricityMetric;
+        private MetricsCombined _metrics;
 
         private MetricsService()
         {
             _districtManager = Singleton<DistrictManager>.instance;
-
-            // Adjust to all metrics and remove hardcoded values
-            ElectricityMetric = new Metric
-            {
-                    Capacity = 12.4f,
-                    Consumption = 8.7f
-            };
+            _metrics = new MetricsCombined();
         }
 
         public static MetricsService GetInstance()
@@ -35,17 +31,51 @@ namespace CSL_SimpleMetrics.Services
         {
             District district = _districtManager.m_districts.m_buffer[0];
 
-            // Example: Get electricity
-            ElectricityMetric = new Metric
+            foreach(MetricsEnum metricKey in _metrics.Keys)
             {
-                Capacity = district.GetElectricityCapacity(),
-                Consumption = district.GetElectricityConsumption()
-            };
+                Metric newMetric = GetCapacityAndConsumption(metricKey);
+                _metrics.Set(metricKey, newMetric);
+            }
         }
 
-        public string GetElectricityMetricString()
+        private Metric GetCapacityAndConsumption(MetricsEnum metric)
         {
-            return $"Electricity - Capacity: {ElectricityMetric.Capacity:0.0}, Consumption: {ElectricityMetric.Consumption:0.0}, Ratio: {ElectricityMetric.Ratio:0.00}";
+            switch (metric)
+            {
+                case MetricsEnum.Electricity:
+                    return new Metric
+                    {
+                        Capacity = _districtManager.m_districts.m_buffer[0].GetElectricityCapacity(),
+                        Consumption = _districtManager.m_districts.m_buffer[0].GetElectricityConsumption()
+                    };
+                case MetricsEnum.Water:
+                    return new Metric
+                    {
+                        Capacity = _districtManager.m_districts.m_buffer[0].GetWaterCapacity(),
+                        Consumption = _districtManager.m_districts.m_buffer[0].GetWaterConsumption()
+                    };
+                case MetricsEnum.Heating:
+                    return new Metric
+                    {
+                        Capacity = _districtManager.m_districts.m_buffer[0].GetHealCapacity(),
+                        Consumption = _districtManager.m_districts.m_buffer[0].GetHeatingConsumption()
+                    };
+                // TODO: add all cases
+                default:
+                    return null;
+            }
+        }
+
+        // Testing property for electricity metric
+        public void PrintMetrics()
+        {
+            foreach (MetricsEnum metricKey in new List<MetricsEnum>{ 
+                MetricsEnum.Electricity, MetricsEnum.Water, MetricsEnum.Heating
+            })
+            {
+                Metric metric = _metrics.Get(metricKey);
+                Logger.Log($"{metricKey} - Capacity: {metric.Capacity:0.0}, Consumption: {metric.Consumption:0.0}, Ratio: {metric.Ratio:0.00}");
+            }
         }
     }
 }

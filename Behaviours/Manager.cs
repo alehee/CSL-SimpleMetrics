@@ -1,6 +1,5 @@
 ﻿using CSL_SimpleMetrics.Services;
 using UnityEngine;
-using Logger = CSL_SimpleMetrics.Logging.Logger;
 
 namespace CSL_SimpleMetrics.Behaviours
 {
@@ -25,7 +24,9 @@ namespace CSL_SimpleMetrics.Behaviours
                 _timer = 0f;
 
                 metricsService.UpdateCapacityAndConsumption();
-                Logger.Log(metricsService.GetElectricityMetricString());
+
+                // Testing method
+                metricsService.PrintMetrics();
             }
 
             _timer += Time.deltaTime;
