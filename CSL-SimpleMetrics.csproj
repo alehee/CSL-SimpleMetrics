@@ -55,7 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviours\Manager.cs" />
+    <Compile Include="Configuration\AppInformation.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
+    <Compile Include="Factories\UiFactory.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogLevelEnum.cs" />
     <Compile Include="Models\Metric.cs" />

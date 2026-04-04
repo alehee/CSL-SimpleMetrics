@@ -1,7 +1,10 @@
-﻿using CSL_SimpleMetrics.Behaviours;
+﻿using ColossalFramework.UI;
+using CSL_SimpleMetrics.Behaviours;
+using CSL_SimpleMetrics.Configuration;
 using CSL_SimpleMetrics.UI;
 using ICities;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
 
@@ -9,6 +12,7 @@ namespace CSL_SimpleMetrics.Extensions
 {
     public class LoadingExtension : LoadingExtensionBase
     {
+        private GameObject _mainGameObject;
         private GameObject _managerGameObject;
         private GameObject _windowGameObject;
 
@@ -17,9 +21,14 @@ namespace CSL_SimpleMetrics.Extensions
             if (mode != LoadMode.LoadGame && mode != LoadMode.NewGame)
                 return;
 
-            _managerGameObject = new GameObject(Manager.Name);
-            _managerGameObject.AddComponent<Manager>();
-            _managerGameObject.AddComponent<Window>(); // Test it bruh
+            _mainGameObject = new GameObject(AppInformation.AppPrefix);
+            _mainGameObject.transform.parent = GetUIView().transform;
+            _mainGameObject.AddComponent<Manager>();
+            _windowGameObject = new GameObject(Window.Name);
+            _windowGameObject.transform.parent = _mainGameObject.transform;
+            _windowGameObject.AddComponent<Window>();
+
+            //CreateWindow();
 
             Logger.Log("Loaded moddification.");
         }
@@ -28,7 +37,7 @@ namespace CSL_SimpleMetrics.Extensions
         {
             var objectsToDestroy = new List<GameObject> {
                 // If you are adding more game objects, add them here to be destroyed on unload.
-                _managerGameObject
+                _mainGameObject
             };
 
             for (int i = 0; i < objectsToDestroy.Count; i++)
@@ -41,6 +50,20 @@ namespace CSL_SimpleMetrics.Extensions
             }
 
             Logger.Log("Unloaded moddification.");
+        }
+
+        private UIView GetUIView()
+        {
+            var allUiViews = GameObject.FindObjectsOfType<UIView>();
+            var mainUiView = allUiViews.Where(v => v.name == "UIView").FirstOrDefault();
+            return mainUiView;
+        }
+
+        private void CreateWindow()
+        {
+            _windowGameObject = new GameObject(Window.Name);
+            _windowGameObject.transform.parent = _managerGameObject.transform;
+            _windowGameObject.AddComponent<Window>();
         }
     }
 }

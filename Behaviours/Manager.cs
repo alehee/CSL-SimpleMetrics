@@ -1,11 +1,12 @@
-﻿using CSL_SimpleMetrics.Services;
+﻿using CSL_SimpleMetrics.Configuration;
+using CSL_SimpleMetrics.Services;
 using UnityEngine;
 
 namespace CSL_SimpleMetrics.Behaviours
 {
     public class Manager : MonoBehaviour
     {
-        public static string Name => "SimpleMetricsManager";
+        public static string Name => $"{AppInformation.AppPrefix}_Manager";
 
         private float _timer;
         private float _interval = 2f; // Seconds
@@ -26,7 +27,7 @@ namespace CSL_SimpleMetrics.Behaviours
                 metricsService.UpdateCapacityAndConsumption();
 
                 // Testing method
-                metricsService.PrintMetrics();
+                //metricsService.PrintMetrics();
             }
 
             _timer += Time.deltaTime;
