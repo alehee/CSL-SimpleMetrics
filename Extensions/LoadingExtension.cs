@@ -1,4 +1,5 @@
 ﻿using CSL_SimpleMetrics.Behaviours;
+using CSL_SimpleMetrics.UI;
 using ICities;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,14 +10,16 @@ namespace CSL_SimpleMetrics.Extensions
     public class LoadingExtension : LoadingExtensionBase
     {
         private GameObject _managerGameObject;
+        private GameObject _windowGameObject;
 
         public override void OnLevelLoaded(LoadMode mode)
         {
             if (mode != LoadMode.LoadGame && mode != LoadMode.NewGame)
                 return;
 
-             _managerGameObject = new GameObject(Manager.Name);
-             _managerGameObject.AddComponent<Manager>();
+            _managerGameObject = new GameObject(Manager.Name);
+            _managerGameObject.AddComponent<Manager>();
+            _managerGameObject.AddComponent<Window>(); // Test it bruh
 
             Logger.Log("Loaded moddification.");
         }
