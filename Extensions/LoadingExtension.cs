@@ -12,23 +12,17 @@ namespace CSL_SimpleMetrics.Extensions
 {
     public class LoadingExtension : LoadingExtensionBase
     {
-        private GameObject _mainGameObject;
-        private GameObject _managerGameObject;
-        private GameObject _windowGameObject;
+        private GameObject _modGameObject;
 
         public override void OnLevelLoaded(LoadMode mode)
         {
             if (mode != LoadMode.LoadGame && mode != LoadMode.NewGame)
                 return;
 
-            _mainGameObject = new GameObject(AppInformation.AppPrefix);
-            _mainGameObject.transform.parent = GetUIView().transform;
-            _mainGameObject.AddComponent<Manager>();
-            _windowGameObject = new GameObject(Window.Name);
-            _windowGameObject.transform.parent = _mainGameObject.transform;
-            _windowGameObject.AddComponent<Window>();
-
-            //CreateWindow();
+            _modGameObject = new GameObject(AppInformation.AppPrefix);
+            _modGameObject.transform.parent = GetUIViewGameObject().transform;
+            _modGameObject.AddComponent<Manager>();
+            _modGameObject.AddComponent<Window>();
 
             Logger.Log("Loaded moddification.");
         }
@@ -37,7 +31,7 @@ namespace CSL_SimpleMetrics.Extensions
         {
             var objectsToDestroy = new List<GameObject> {
                 // If you are adding more game objects, add them here to be destroyed on unload.
-                _mainGameObject
+                _modGameObject
             };
 
             for (int i = 0; i < objectsToDestroy.Count; i++)
@@ -52,18 +46,11 @@ namespace CSL_SimpleMetrics.Extensions
             Logger.Log("Unloaded moddification.");
         }
 
-        private UIView GetUIView()
+        private UIView GetUIViewGameObject()
         {
             var allUiViews = GameObject.FindObjectsOfType<UIView>();
             var mainUiView = allUiViews.Where(v => v.name == "UIView").FirstOrDefault();
             return mainUiView;
-        }
-
-        private void CreateWindow()
-        {
-            _windowGameObject = new GameObject(Window.Name);
-            _windowGameObject.transform.parent = _managerGameObject.transform;
-            _windowGameObject.AddComponent<Window>();
         }
     }
 }
