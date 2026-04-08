@@ -2,6 +2,7 @@
 using CSL_SimpleMetrics.Configuration;
 using CSL_SimpleMetrics.Factories;
 using CSL_SimpleMetrics.Models;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -23,12 +24,12 @@ namespace CSL_SimpleMetrics.UI
         {
             this.relativePosition = new Vector3(100, 100); // TODO here's just a placeholder
 
-            _windowSettings = new WindowSettings();            
+            _windowSettings = new WindowSettings(); // TODO load settings from file       
 
             base.Start();
 
-            CreateWindowGameObject();
-            CreateBodyPanel();
+            _windowGameObject = CreateWindowGameObject();
+            _bodyPanel = CreateBodyPanel();
             CreateDragHandler();
 
             _uiFactory = new UIFactory(_windowGameObject.transform);
@@ -41,29 +42,33 @@ namespace CSL_SimpleMetrics.UI
         private void CreateTestLabels()
         {
             _uiFactory.CreateLabel("TestLabel", "Hello, World");
-            _uiFactory.CreateLabel("TestLabel2", "Hello, __World");
-            _uiFactory.CreateLabel("TestLabel3", "Hello, ____World");
+            _uiFactory.CreateLabel("TestLabel2", "Hello, __World", -0.05f);
+            _uiFactory.CreateLabel("TestLabel3", "Hello, ____World", -0.1f);
         }
 
-        private void CreateWindowGameObject()
+        private GameObject CreateWindowGameObject()
         {
-            _windowGameObject = new GameObject(Name);
-            _windowGameObject.transform.parent = GameObject.Find(AppInformation.AppPrefix).transform;
+            var gameObject = new GameObject(Name);
+            gameObject.transform.parent = GameObject.Find(AppInformation.AppPrefix).transform;
             this.width = _windowSettings.Width;
             this.height = _windowSettings.Height;
+
+            return gameObject;
         }
 
-        private void CreateBodyPanel()
+        private UIPanel CreateBodyPanel()
         {
-            _bodyPanel = _windowGameObject.AddComponent<UIPanel>();
-            _bodyPanel.backgroundSprite = "MenuPanel";
-            _bodyPanel.isVisible = true;
-            _bodyPanel.canFocus = true;
-            _bodyPanel.isInteractive = true;
-            _bodyPanel.width = _windowSettings.Width;
-            _bodyPanel.height = _windowSettings.Height;
-            _bodyPanel.relativePosition = Vector3.zero;
-            _bodyPanel.zOrder = (int)WindowZOrderEnum.Background;
+            var panel = _windowGameObject.AddComponent<UIPanel>();
+            panel.backgroundSprite = "MenuPanel";
+            panel.isVisible = true;
+            panel.canFocus = true;
+            panel.isInteractive = true;
+            panel.width = _windowSettings.Width;
+            panel.height = _windowSettings.Height;
+            panel.relativePosition = Vector3.zero;
+            panel.zOrder = (int)WindowZOrderEnum.Background;
+
+            return panel;
         }
 
         private void CreateDragHandler()
