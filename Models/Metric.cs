@@ -12,5 +12,10 @@ namespace CSL_SimpleMetrics.Models
         {
             RatioMultiplier = (float)System.Math.Pow(10, decimalPoints);
         }
+
+        public override string ToString()
+        {
+            return $"Capacity: {Capacity:0.0}, Consumption: {Consumption:0.0}, Ratio: {Ratio:0.00}";
+        }
     }
 }

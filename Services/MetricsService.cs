@@ -1,6 +1,6 @@
-﻿using ColossalFramework;
+﻿using System;
+using ColossalFramework;
 using CSL_SimpleMetrics.Models;
-using System.Collections.Generic;
 using UnityEngine;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
 
@@ -13,6 +13,8 @@ namespace CSL_SimpleMetrics.Services
         private DistrictManager _districtManager;
         private ImmaterialResourceManager _immaterialResourceManager;
         private MetricsCombined _metrics;
+
+        public event Action MetricsUpdated;
 
         private MetricsService()
         {
@@ -30,6 +32,8 @@ namespace CSL_SimpleMetrics.Services
             return _instance;
         }
 
+        public MetricsCombined GetMetrics() => _metrics;
+
         public void UpdateCapacityAndConsumption()
         {
             foreach(MetricsEnum metricKey in _metrics.Keys)
@@ -37,6 +41,8 @@ namespace CSL_SimpleMetrics.Services
                 Metric newMetric = GetCapacityAndConsumption(metricKey);
                 _metrics.Set(metricKey, newMetric);
             }
+
+            MetricsUpdated?.Invoke();
         }
 
         private Metric GetCapacityAndConsumption(MetricsEnum metricKey)

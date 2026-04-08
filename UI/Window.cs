@@ -2,6 +2,7 @@
 using CSL_SimpleMetrics.Configuration;
 using CSL_SimpleMetrics.Factories;
 using CSL_SimpleMetrics.Models;
+using CSL_SimpleMetrics.Services;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,10 +16,12 @@ namespace CSL_SimpleMetrics.UI
         private GameObject _windowGameObject;
 
         private UIPanel _bodyPanel;
+        private Dictionary<MetricsEnum, UILabel> _labels;
 
         private WindowSettings _windowSettings;
 
         private UIFactory _uiFactory;
+        private MetricsService _metricsService;
 
         public override void Start()
         {
@@ -32,18 +35,43 @@ namespace CSL_SimpleMetrics.UI
             _bodyPanel = CreateBodyPanel();
             CreateDragHandler();
 
+            _labels = new Dictionary<MetricsEnum, UILabel>();
+
             _uiFactory = new UIFactory(_windowGameObject.transform);
+
+            _metricsService = MetricsService.GetInstance();
+            _metricsService.MetricsUpdated += OnMetricsUpdated;
 
             // TODO remove it later
             CreateTestLabels();
         }
 
+        private void OnMetricsUpdated()
+        {
+            MetricsCombined metrics = _metricsService.GetMetrics();
+            // TODO change temp metrics to proper complete data
+            if (
+                _labels.ContainsKey(MetricsEnum.Electricity) && 
+                _labels.ContainsKey(MetricsEnum.Water) &&
+                _labels.ContainsKey(MetricsEnum.Sewage)
+            )
+            {
+                _labels[MetricsEnum.Electricity].text = $"{MetricsEnum.Electricity.ToString()}: {metrics.Get(MetricsEnum.Electricity).ToString()}";
+                _labels[MetricsEnum.Water].text = $"{MetricsEnum.Water.ToString()}: {metrics.Get(MetricsEnum.Water).ToString()}";
+                _labels[MetricsEnum.Sewage].text = $"{MetricsEnum.Sewage.ToString()}: {metrics.Get(MetricsEnum.Sewage).ToString()}";
+            }
+
+        }
+
         // TODO remove it later, testing method
         private void CreateTestLabels()
         {
-            _uiFactory.CreateLabel("TestLabel", "Hello, World");
-            _uiFactory.CreateLabel("TestLabel2", "Hello, __World", -0.05f);
-            _uiFactory.CreateLabel("TestLabel3", "Hello, ____World", -0.1f);
+            _labels[MetricsEnum.Electricity] = _uiFactory
+                .CreateLabel(MetricsEnum.Electricity.ToString(), "Hello, World");
+            _labels[MetricsEnum.Water] = _uiFactory.
+                CreateLabel(MetricsEnum.Water.ToString(), "Hello, __World", -0.05f);
+            _labels[MetricsEnum.Sewage] = _uiFactory
+                .CreateLabel(MetricsEnum.Sewage.ToString(), "Hello, ____World", -0.1f);
         }
 
         private GameObject CreateWindowGameObject()

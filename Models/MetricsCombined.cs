@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CSL_SimpleMetrics.Models
 {
-    class MetricsCombined
+    public class MetricsCombined
     {
         private Dictionary<MetricsEnum, Metric> Metrics { get; }
 

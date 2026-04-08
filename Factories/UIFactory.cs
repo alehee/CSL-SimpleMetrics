@@ -24,6 +24,7 @@ namespace CSL_SimpleMetrics.Factories
             gameObject.transform.localPosition = new Vector3(0, verticalMargin);
             UILabel label = gameObject.AddComponent<UILabel>();
             label.text = text;
+            label.textScale = 0.5f;
             label.zOrder = (int)zOrderEnum;
             return label;
         }
