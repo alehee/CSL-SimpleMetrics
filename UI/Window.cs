@@ -40,9 +40,9 @@ namespace CSL_SimpleMetrics.UI
         // TODO remove it later, testing method
         private void CreateTestLabels()
         {
-            var label = _uiFactory.CreateLabel("TestLabel");
-            label.text = "Hello, World!";
-            label.zOrder = 1; // TODO ensure what's going on here
+            _uiFactory.CreateLabel("TestLabel", "Hello, World");
+            _uiFactory.CreateLabel("TestLabel2", "Hello, __World");
+            _uiFactory.CreateLabel("TestLabel3", "Hello, ____World");
         }
 
         private void CreateWindowGameObject()
@@ -62,17 +62,19 @@ namespace CSL_SimpleMetrics.UI
             _bodyPanel.isInteractive = true;
             _bodyPanel.width = _windowSettings.Width;
             _bodyPanel.height = _windowSettings.Height;
+            _bodyPanel.relativePosition = Vector3.zero;
+            _bodyPanel.zOrder = (int)WindowZOrderEnum.Background;
         }
 
         private void CreateDragHandler()
         {
             var dragHandlerGameObject = new GameObject("DragHandler");
-            dragHandlerGameObject.transform.parent = _bodyPanel.transform;
+            dragHandlerGameObject.transform.parent = this.transform;
             dragHandlerGameObject.transform.localPosition = Vector3.zero;
             var dragHandler = dragHandlerGameObject.AddComponent<UIDragHandle>();
             dragHandler.width = _bodyPanel.width;
             dragHandler.height = _bodyPanel.height;
-            dragHandler.zOrder = 0;
+            dragHandler.zOrder = (int)WindowZOrderEnum.Foreground;
             dragHandler.BringToFront();
         }
     }
