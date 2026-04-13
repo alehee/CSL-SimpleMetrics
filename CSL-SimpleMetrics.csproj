@@ -66,9 +66,30 @@
     <Compile Include="Models\WindowSettings.cs" />
     <Compile Include="Models\WindowZOrderEnum.cs" />
     <Compile Include="Services\MetricsService.cs" />
+    <Compile Include="Services\TextureAtlasService.cs" />
     <Compile Include="SimpleMetricsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UI\Window.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Backgrounds\Background.png" />
+    <EmbeddedResource Include="Assets\Icons\Cemetary.png" />
+    <EmbeddedResource Include="Assets\Icons\ChildCare.png" />
+    <EmbeddedResource Include="Assets\Icons\Crematorium.png" />
+    <EmbeddedResource Include="Assets\Icons\EducationElementary.png" />
+    <EmbeddedResource Include="Assets\Icons\EducationHighSchool.png" />
+    <EmbeddedResource Include="Assets\Icons\EducationUniversity.png" />
+    <EmbeddedResource Include="Assets\Icons\Electricity.png" />
+    <EmbeddedResource Include="Assets\Icons\FireSafety.png" />
+    <EmbeddedResource Include="Assets\Icons\Garbage.png" />
+    <EmbeddedResource Include="Assets\Icons\GarbageIncineration.png" />
+    <EmbeddedResource Include="Assets\Icons\Healthcare.png" />
+    <EmbeddedResource Include="Assets\Icons\Heating.png" />
+    <EmbeddedResource Include="Assets\Icons\Library.png" />
+    <EmbeddedResource Include="Assets\Icons\Police.png" />
+    <EmbeddedResource Include="Assets\Icons\SeniorCare.png" />
+    <EmbeddedResource Include="Assets\Icons\Sewage.png" />
+    <EmbeddedResource Include="Assets\Icons\Water.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

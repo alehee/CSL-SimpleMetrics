@@ -4,7 +4,6 @@ using CSL_SimpleMetrics.Factories;
 using CSL_SimpleMetrics.Models;
 using CSL_SimpleMetrics.Services;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace CSL_SimpleMetrics.UI
@@ -16,12 +15,14 @@ namespace CSL_SimpleMetrics.UI
         private GameObject _windowGameObject;
 
         private UIPanel _bodyPanel;
+        private UITextureAtlas _atlas;
         private Dictionary<MetricsEnum, UILabel> _labels;
 
         private WindowSettings _windowSettings;
 
         private UIFactory _uiFactory;
         private MetricsService _metricsService;
+        private TextureAtlasService _textureAtlasService;
 
         public override void Start()
         {
@@ -36,6 +37,9 @@ namespace CSL_SimpleMetrics.UI
             CreateDragHandler();
 
             _labels = new Dictionary<MetricsEnum, UILabel>();
+
+            _textureAtlasService = new TextureAtlasService();
+            _atlas = _textureAtlasService.GetAtlas();
 
             _uiFactory = new UIFactory(_windowGameObject.transform);
 
