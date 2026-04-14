@@ -1,6 +1,5 @@
 ﻿using ColossalFramework.UI;
 using CSL_SimpleMetrics.Configuration;
-using CSL_SimpleMetrics.Logging;
 using CSL_SimpleMetrics.Models;
 using System.Collections.Generic;
 using System.IO;
@@ -80,14 +79,12 @@ namespace CSL_SimpleMetrics.Services
 
             foreach (var iconName in iconNames)
             {
-                result[iconName] = $"Assets.Icons.{iconName}.png";
-                Logger.Log($"Added sprite with name {iconName} and path {result[iconName]}");
+                result[iconName] = $"{AppInformation.AppPrefix}.Assets.Icons.{iconName}.png";
             }
 
             foreach (var backgroundName in backgroundNames)
             {
-                result[backgroundName] = $"Assets.Backgrounds.{backgroundName}.png";
-                Logger.Log($"Added sprite with name {backgroundName} and path {result[backgroundName]}");
+                result[backgroundName] = $"{AppInformation.AppPrefix}.Assets.Backgrounds.{backgroundName}.png";
             }
 
             return result;
