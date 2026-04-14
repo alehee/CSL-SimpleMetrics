@@ -12,7 +12,7 @@ namespace CSL_SimpleMetrics.Services
 {
     public class TextureAtlasService
     {
-        Texture2D _baseTexture => new Texture2D(1, 1, TextureFormat.ARGB32, false);
+        Texture2D _baseTexture;
 
         public UITextureAtlas GetAtlas()
         {
@@ -29,6 +29,7 @@ namespace CSL_SimpleMetrics.Services
                 textureCounter++;
             }
 
+            _baseTexture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             regions = _baseTexture.PackTextures(textures, 2, 512);
 
             Material material = Object.Instantiate(UIView.GetAView().defaultAtlas.material);
@@ -47,6 +48,19 @@ namespace CSL_SimpleMetrics.Services
                     texture = textures[spriteCounter],
                     region = regions[spriteCounter]
                 };
+
+                // TODO adjust it to the sprite
+                if (sprite.name == "Background")
+                {
+                    int left = 8;
+                    int right = 8;
+                    int top = 8;
+                    int bottom = 8;
+
+                    // If your background texture is larger or corners thicker, increase values accordingly.
+                    sprite.border = new RectOffset(left, right, top, bottom);
+                }
+
                 atlas.AddSprite(sprite);
                 spriteCounter++;
             }

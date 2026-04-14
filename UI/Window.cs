@@ -32,14 +32,14 @@ namespace CSL_SimpleMetrics.UI
 
             base.Start();
 
+            _textureAtlasService = new TextureAtlasService();
+            _atlas = _textureAtlasService.GetAtlas();
+
             _windowGameObject = CreateWindowGameObject();
             _bodyPanel = CreateBodyPanel();
             CreateDragHandler();
 
             _labels = new Dictionary<MetricsEnum, UILabel>();
-
-            _textureAtlasService = new TextureAtlasService();
-            _atlas = _textureAtlasService.GetAtlas();
 
             _uiFactory = new UIFactory(_windowGameObject.transform);
 
@@ -91,7 +91,9 @@ namespace CSL_SimpleMetrics.UI
         private UIPanel CreateBodyPanel()
         {
             var panel = _windowGameObject.AddComponent<UIPanel>();
-            panel.backgroundSprite = "MenuPanel";
+            panel.atlas = _atlas;
+            //panel.backgroundSprite = "MenuPanel";
+            panel.backgroundSprite = "Background";
             panel.isVisible = true;
             panel.canFocus = true;
             panel.isInteractive = true;
