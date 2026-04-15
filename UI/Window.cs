@@ -28,7 +28,7 @@ namespace CSL_SimpleMetrics.UI
         {
             this.relativePosition = new Vector3(100, 100); // TODO here's just a placeholder
 
-            _windowSettings = new WindowSettings(); // TODO load settings from file       
+            _windowSettings = new WindowSettings(); // TODO maybe in the future -> load from config file
 
             base.Start();
 
@@ -41,13 +41,16 @@ namespace CSL_SimpleMetrics.UI
 
             _labels = new Dictionary<MetricsEnum, UILabel>();
 
-            _uiFactory = new UIFactory(_windowGameObject.transform);
+            _uiFactory = new UIFactory(_windowGameObject.transform, _atlas);
 
             _metricsService = MetricsService.GetInstance();
             _metricsService.MetricsUpdated += OnMetricsUpdated;
 
             // TODO remove it later
             CreateTestLabels();
+
+            // TODO adjust to all metrics
+            CreateMetricsSprites();
         }
 
         private void OnMetricsUpdated()
@@ -78,6 +81,12 @@ namespace CSL_SimpleMetrics.UI
                 .CreateLabel(MetricsEnum.Sewage.ToString(), "Hello, ____World", -0.1f);
         }
 
+        // TODO add other metrics sprites
+        private void CreateMetricsSprites()
+        {
+            _uiFactory.CreateSprite(MetricsEnum.Electricity.ToString());
+        }
+
         private GameObject CreateWindowGameObject()
         {
             var gameObject = new GameObject(Name);
@@ -95,7 +104,6 @@ namespace CSL_SimpleMetrics.UI
             panel.backgroundSprite = "Background";
             panel.isVisible = true;
             panel.canFocus = true;
-            panel.opacity = 0.8f;
             panel.isInteractive = true;
             panel.width = _windowSettings.Width;
             panel.height = _windowSettings.Height;
