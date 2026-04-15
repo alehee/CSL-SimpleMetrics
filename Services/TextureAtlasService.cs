@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using Logger = CSL_SimpleMetrics.Logging.Logger;
 
 namespace CSL_SimpleMetrics.Services
 {

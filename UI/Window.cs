@@ -92,10 +92,10 @@ namespace CSL_SimpleMetrics.UI
         {
             var panel = _windowGameObject.AddComponent<UIPanel>();
             panel.atlas = _atlas;
-            //panel.backgroundSprite = "MenuPanel";
             panel.backgroundSprite = "Background";
             panel.isVisible = true;
             panel.canFocus = true;
+            panel.opacity = 0.8f;
             panel.isInteractive = true;
             panel.width = _windowSettings.Width;
             panel.height = _windowSettings.Height;
