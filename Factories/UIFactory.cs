@@ -35,10 +35,12 @@ namespace CSL_SimpleMetrics.Factories
 
         public UISprite CreateSprite(
             string name,
-            float verticalMargin = 0,
+            float verticalMargin = -0.01f,
             float horizontalMargin = 0,
             float size = 1f,
-            WindowZOrderEnum zOrderEnum = WindowZOrderEnum.Content
+            float opacity = 1f,
+            WindowZOrderEnum zOrderEnum = WindowZOrderEnum.Content,
+            Color? color = null
         )
         {
             var gameObject = new GameObject($"{AppInformation.AppPrefix}_Sprite_{name}");
@@ -49,6 +51,13 @@ namespace CSL_SimpleMetrics.Factories
             sprite.atlas = _atlas;
             sprite.spriteName = name;
             sprite.zOrder = (int)zOrderEnum;
+
+            if (color.HasValue)
+            {
+                sprite.color = color.Value;
+            }
+
+            sprite.opacity = opacity;
             return sprite;
         }
     }

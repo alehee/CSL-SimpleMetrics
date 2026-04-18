@@ -18,6 +18,7 @@ namespace CSL_SimpleMetrics.UI
         private UITextureAtlas _atlas;
         private Dictionary<MetricsEnum, UILabel> _labels; // Temporary objects
         private Dictionary<MetricsEnum, UISprite> _sprites;
+        private Dictionary<MetricsEnum, UISprite> _indicatorSprites;
 
         private WindowSettings _windowSettings;
 
@@ -42,6 +43,7 @@ namespace CSL_SimpleMetrics.UI
 
             _labels = new Dictionary<MetricsEnum, UILabel>();
             _sprites = new Dictionary<MetricsEnum, UISprite>();
+            _indicatorSprites = new Dictionary<MetricsEnum, UISprite>();
 
             _uiFactory = new UIFactory(_windowGameObject.transform, _atlas);
 
@@ -85,14 +87,24 @@ namespace CSL_SimpleMetrics.UI
         // TODO add other metrics sprites
         private void CreateMetricsSprites()
         {
-            float horizontalMargin = 0f;
+            float horizontalMargin = 0.01f;
             foreach (MetricsEnum metric in _metricsService.GetMetrics().Keys)
             {
+                _indicatorSprites[metric] = _uiFactory.CreateSprite(
+                    name: "Indicator",
+                    horizontalMargin: horizontalMargin,
+                    size: 0.7f,
+                    zOrderEnum: WindowZOrderEnum.Indicator,
+                    opacity: 0.5f,
+                    color: Color.red
+                );
+
                 _sprites[metric] = _uiFactory.CreateSprite(
                     name: metric.ToString(), 
                     horizontalMargin: horizontalMargin,
                     size: 0.7f
                 );
+
                 horizontalMargin += 0.05f;
             }
         }

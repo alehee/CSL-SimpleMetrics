@@ -3,7 +3,8 @@
     public enum WindowZOrderEnum
     {
         Background = 0,
-        Content = 1,
-        Foreground = 2,
+        Indicator = 1,
+        Content = 2,
+        Foreground = 3,
     }
 }
