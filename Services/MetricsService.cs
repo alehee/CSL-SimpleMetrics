@@ -79,7 +79,8 @@ namespace CSL_SimpleMetrics.Services
                     return new Metric
                     {
                         Capacity = district.GetGarbageCapacity(),
-                        Consumption = district.GetGarbageAmount()
+                        Consumption = district.GetGarbageAmount(),
+                        IsFlipped = true
                     };
                 case MetricsEnum.GarbageIncineration:
                     return new Metric

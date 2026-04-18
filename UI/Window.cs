@@ -2,7 +2,6 @@
 using CSL_SimpleMetrics.Configuration;
 using CSL_SimpleMetrics.Factories;
 using CSL_SimpleMetrics.Helpers;
-using CSL_SimpleMetrics.Logging;
 using CSL_SimpleMetrics.Models;
 using CSL_SimpleMetrics.Services;
 using System.Collections.Generic;
@@ -28,6 +27,8 @@ namespace CSL_SimpleMetrics.UI
         private UIFactory _uiFactory;
         private MetricsService _metricsService;
         private TextureAtlasService _textureAtlasService;
+
+        private bool logGenerated = false; // TODO remove
 
         public override void Start()
         {
@@ -72,8 +73,13 @@ namespace CSL_SimpleMetrics.UI
                 var sprite = _indicatorSprites[metric];
                 ColorHelper.ChangeSpriteColor(ref sprite, metrics.Get(metric).Ratio, _windowSettings.IndicatorOpacity);
 
-                Logger.Log($"{metric.ToString()}: {metrics.Get(metric).Ratio}");
+                if (!logGenerated)
+                {
+                    Logger.Log($"{metric.ToString()}: {metrics.Get(metric).Ratio}");
+                    Logger.Log($"{metrics.Get(metric).ToString()}");
+                }
             }
+            logGenerated = true;
         }
 
         private void CreateMetricsSprites()
