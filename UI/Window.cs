@@ -1,10 +1,13 @@
 ﻿using ColossalFramework.UI;
 using CSL_SimpleMetrics.Configuration;
 using CSL_SimpleMetrics.Factories;
+using CSL_SimpleMetrics.Helpers;
+using CSL_SimpleMetrics.Logging;
 using CSL_SimpleMetrics.Models;
 using CSL_SimpleMetrics.Services;
 using System.Collections.Generic;
 using UnityEngine;
+using Logger = CSL_SimpleMetrics.Logging.Logger;
 
 namespace CSL_SimpleMetrics.UI
 {
@@ -50,41 +53,29 @@ namespace CSL_SimpleMetrics.UI
             _metricsService = MetricsService.GetInstance();
             _metricsService.MetricsUpdated += OnMetricsUpdated;
 
-            // TODO remove it later
-            //CreateTestLabels();
-
             CreateMetricsSprites();
         }
 
         private void OnMetricsUpdated()
         {
-            MetricsCombined metrics = _metricsService.GetMetrics();
-            // TODO change temp metrics to proper complete data
-            if (
-                _labels.ContainsKey(MetricsEnum.Electricity) && 
-                _labels.ContainsKey(MetricsEnum.Water) &&
-                _labels.ContainsKey(MetricsEnum.Sewage)
-            )
-            {
-                _labels[MetricsEnum.Electricity].text = $"{MetricsEnum.Electricity.ToString()}: {metrics.Get(MetricsEnum.Electricity).ToString()}";
-                _labels[MetricsEnum.Water].text = $"{MetricsEnum.Water.ToString()}: {metrics.Get(MetricsEnum.Water).ToString()}";
-                _labels[MetricsEnum.Sewage].text = $"{MetricsEnum.Sewage.ToString()}: {metrics.Get(MetricsEnum.Sewage).ToString()}";
-            }
-
+            OnMetricsUpdated(_indicatorSprites);
         }
 
-        // TODO remove it later, testing method
-        private void CreateTestLabels()
+        private void OnMetricsUpdated(Dictionary<MetricsEnum, UISprite> _indicatorSprites)
         {
-            _labels[MetricsEnum.Electricity] = _uiFactory
-                .CreateLabel(MetricsEnum.Electricity.ToString(), "Hello, World");
-            _labels[MetricsEnum.Water] = _uiFactory.
-                CreateLabel(MetricsEnum.Water.ToString(), "Hello, __World", -0.05f);
-            _labels[MetricsEnum.Sewage] = _uiFactory
-                .CreateLabel(MetricsEnum.Sewage.ToString(), "Hello, ____World", -0.1f);
+            MetricsCombined metrics = _metricsService.GetMetrics();
+
+            if (_sprites.Count < metrics.Keys.Count) return;
+
+            foreach (MetricsEnum metric in metrics.Keys)
+            {
+                var sprite = _indicatorSprites[metric];
+                ColorHelper.ChangeSpriteColor(ref sprite, metrics.Get(metric).Ratio, _windowSettings.IndicatorOpacity);
+
+                Logger.Log($"{metric.ToString()}: {metrics.Get(metric).Ratio}");
+            }
         }
 
-        // TODO add other metrics sprites
         private void CreateMetricsSprites()
         {
             float horizontalMargin = 0.01f;
@@ -95,8 +86,8 @@ namespace CSL_SimpleMetrics.UI
                     horizontalMargin: horizontalMargin,
                     size: 0.7f,
                     zOrderEnum: WindowZOrderEnum.Indicator,
-                    opacity: 0.5f,
-                    color: Color.red
+                    opacity: _windowSettings.IndicatorOpacity,
+                    color: new Color(0f, 0f, 0f)
                 );
 
                 _sprites[metric] = _uiFactory.CreateSprite(

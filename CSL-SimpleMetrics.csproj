@@ -58,6 +58,7 @@
     <Compile Include="Configuration\AppInformation.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Factories\UIFactory.cs" />
+    <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogLevelEnum.cs" />
     <Compile Include="Models\Metric.cs" />
@@ -73,7 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\Backgrounds\Background.png" />
-	  <EmbeddedResource Include="Assets\Backgrounds\Indicator.png" />
+    <EmbeddedResource Include="Assets\Backgrounds\Indicator.png" />
     <EmbeddedResource Include="Assets\Icons\Cemetery.png" />
     <EmbeddedResource Include="Assets\Icons\ChildCare.png" />
     <EmbeddedResource Include="Assets\Icons\Crematorium.png" />
