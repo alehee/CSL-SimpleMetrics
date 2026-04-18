@@ -16,7 +16,8 @@ namespace CSL_SimpleMetrics.UI
 
         private UIPanel _bodyPanel;
         private UITextureAtlas _atlas;
-        private Dictionary<MetricsEnum, UILabel> _labels;
+        private Dictionary<MetricsEnum, UILabel> _labels; // Temporary objects
+        private Dictionary<MetricsEnum, UISprite> _sprites;
 
         private WindowSettings _windowSettings;
 
@@ -26,7 +27,7 @@ namespace CSL_SimpleMetrics.UI
 
         public override void Start()
         {
-            this.relativePosition = new Vector3(100, 100); // TODO here's just a placeholder
+            this.relativePosition = new Vector3(50, 50); // TODO here's just a placeholder
 
             _windowSettings = new WindowSettings(); // TODO maybe in the future -> load from config file
 
@@ -40,6 +41,7 @@ namespace CSL_SimpleMetrics.UI
             CreateDragHandler();
 
             _labels = new Dictionary<MetricsEnum, UILabel>();
+            _sprites = new Dictionary<MetricsEnum, UISprite>();
 
             _uiFactory = new UIFactory(_windowGameObject.transform, _atlas);
 
@@ -47,9 +49,8 @@ namespace CSL_SimpleMetrics.UI
             _metricsService.MetricsUpdated += OnMetricsUpdated;
 
             // TODO remove it later
-            CreateTestLabels();
+            //CreateTestLabels();
 
-            // TODO adjust to all metrics
             CreateMetricsSprites();
         }
 
@@ -84,7 +85,16 @@ namespace CSL_SimpleMetrics.UI
         // TODO add other metrics sprites
         private void CreateMetricsSprites()
         {
-            _uiFactory.CreateSprite(MetricsEnum.Electricity.ToString());
+            float horizontalMargin = 0f;
+            foreach (MetricsEnum metric in _metricsService.GetMetrics().Keys)
+            {
+                _sprites[metric] = _uiFactory.CreateSprite(
+                    name: metric.ToString(), 
+                    horizontalMargin: horizontalMargin,
+                    size: 0.7f
+                );
+                horizontalMargin += 0.05f;
+            }
         }
 
         private GameObject CreateWindowGameObject()
@@ -107,6 +117,7 @@ namespace CSL_SimpleMetrics.UI
             panel.isInteractive = true;
             panel.width = _windowSettings.Width;
             panel.height = _windowSettings.Height;
+            panel.padding = new RectOffset(10, 10, 10, 10);
             panel.relativePosition = Vector3.zero;
             panel.zOrder = (int)WindowZOrderEnum.Background;
 
