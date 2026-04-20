@@ -1,6 +1,7 @@
 ﻿using System;
 using ColossalFramework;
 using CSL_SimpleMetrics.Models;
+using CSL_SimpleMetrics.Models.MetricVariations;
 using UnityEngine;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
 
@@ -67,7 +68,8 @@ namespace CSL_SimpleMetrics.Services
                     return new Metric
                     {
                         Capacity = district.GetHealCapacity(),
-                        Consumption = district.GetHeatingConsumption()
+                        Consumption = district.GetHeatingConsumption(),
+                        ApplyPesimisticConsumption = false
                     };
                 case MetricsEnum.Sewage:
                     return new Metric
@@ -76,11 +78,10 @@ namespace CSL_SimpleMetrics.Services
                         Consumption = district.GetSewageAccumulation()
                     };
                 case MetricsEnum.Garbage:
-                    return new Metric
+                    return new MetricGarbage
                     {
                         Capacity = district.GetGarbageCapacity(),
-                        Consumption = district.GetGarbageAmount(),
-                        IsFlipped = true
+                        Consumption = district.GetGarbageAmount()
                     };
                 case MetricsEnum.GarbageIncineration:
                     return new Metric
@@ -98,7 +99,8 @@ namespace CSL_SimpleMetrics.Services
                     var metricChild = new Metric
                     {
                         Capacity = district.m_childHealthData.m_finalCount,
-                        Consumption = district.m_childData.m_finalCount + district.m_teenData.m_finalCount
+                        Consumption = district.m_childData.m_finalCount + district.m_teenData.m_finalCount,
+                        ApplyPesimisticConsumption = false
                     };
                     metricChild.SetRatioMultiplierDecimalPoints(-2);
                     return metricChild;
@@ -106,7 +108,8 @@ namespace CSL_SimpleMetrics.Services
                     var metricSenior = new Metric
                     {
                         Capacity = district.m_seniorHealthData.m_finalCount,
-                        Consumption = district.m_seniorData.m_finalCount
+                        Consumption = district.m_seniorData.m_finalCount,
+                        ApplyPesimisticConsumption = false
                     };
                     metricSenior.SetRatioMultiplierDecimalPoints(-2);
                     return metricSenior;
@@ -114,10 +117,11 @@ namespace CSL_SimpleMetrics.Services
                     return new Metric
                     {
                         Capacity = district.GetCremateCapacity(),
-                        Consumption = district.GetDeadCount()
+                        Consumption = district.GetDeadCount(),
+                        ApplyPesimisticConsumption = false
                     };
                 case MetricsEnum.Cemetery:
-                    return new Metric
+                    return new MetricCemetery
                     {
                         Capacity = district.GetDeadCapacity(),
                         Consumption = district.GetDeadAmount()
@@ -141,7 +145,7 @@ namespace CSL_SimpleMetrics.Services
                         Consumption = district.GetEducation3Need()
                     };
                 case MetricsEnum.Library:
-                    return new Metric
+                    return new MetricLibrary
                     {
                         Capacity = district.GetLibraryCapacity(),
                         Consumption = district.GetLibraryVisitorCount()
@@ -150,7 +154,7 @@ namespace CSL_SimpleMetrics.Services
                     int fireHazardValue = 0;
                     _immaterialResourceManager.CheckTotalResource(ImmaterialResourceManager.Resource.FireHazard, out fireHazardValue);
                     fireHazardValue = Mathf.Clamp(fireHazardValue, 0, 100);
-                    return new Metric
+                    return new MetricFireSafety
                     {
                         Capacity = fireHazardValue,
                         Consumption = 100

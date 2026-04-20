@@ -5,20 +5,13 @@ namespace CSL_SimpleMetrics.Models
     {
         public float Capacity { get; set; } = 0;
         public float Consumption { get; set; } = 0;
-        public bool IsFlipped { get; set; } = false;
+        public bool ApplyPesimisticConsumption { get; set; } = true;
         public float Ratio => GetRatio();
         private float RatioMultiplier { get; set; } = 1;
 
-        public float GetRatio()
+        public virtual float GetRatio()
         {
-            float ratio = Capacity != 0 ? (Capacity / Consumption) * RatioMultiplier : 0;
-
-            if (!IsFlipped)
-            {
-                return ratio;
-            }
-
-            return 2 - ratio;
+            return Capacity != 0 ? (Capacity / (Consumption + GetPesimisticConsumption())) * RatioMultiplier : 0;
         }
 
         public void SetRatioMultiplierDecimalPoints(int decimalPoints)
@@ -29,6 +22,11 @@ namespace CSL_SimpleMetrics.Models
         public override string ToString()
         {
             return $"Capacity: {Capacity:0.0}, Consumption: {Consumption:0.0}, Ratio: {Ratio:0.00}";
+        }
+
+        private float GetPesimisticConsumption()
+        {
+            return ApplyPesimisticConsumption ? Consumption : 0;
         }
     }
 }

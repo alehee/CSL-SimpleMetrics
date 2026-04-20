@@ -64,6 +64,10 @@
     <Compile Include="Models\Metric.cs" />
     <Compile Include="Models\MetricsCombined.cs" />
     <Compile Include="Models\MetricsEnum.cs" />
+    <Compile Include="Models\MetricVariations\MetricCemetery.cs" />
+    <Compile Include="Models\MetricVariations\MetricFireSafety.cs" />
+    <Compile Include="Models\MetricVariations\MetricGarbage.cs" />
+    <Compile Include="Models\MetricVariations\MetricLibrary.cs" />
     <Compile Include="Models\WindowSettings.cs" />
     <Compile Include="Models\WindowZOrderEnum.cs" />
     <Compile Include="Services\MetricsService.cs" />
