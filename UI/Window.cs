@@ -102,7 +102,7 @@ namespace CSL_SimpleMetrics.UI
                     size: 0.7f
                 );
 
-                horizontalMargin += 0.05f;
+                horizontalMargin += 0.045f;
             }
         }
 
@@ -126,7 +126,7 @@ namespace CSL_SimpleMetrics.UI
             panel.isInteractive = true;
             panel.width = _windowSettings.Width;
             panel.height = _windowSettings.Height;
-            panel.padding = new RectOffset(10, 10, 10, 10);
+            panel.padding = new RectOffset(5, 5, 5, 5);
             panel.relativePosition = Vector3.zero;
             panel.zOrder = (int)WindowZOrderEnum.Background;
 

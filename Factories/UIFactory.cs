@@ -35,7 +35,7 @@ namespace CSL_SimpleMetrics.Factories
 
         public UISprite CreateSprite(
             string name,
-            float verticalMargin = -0.01f,
+            float verticalMargin = -0.005f,
             float horizontalMargin = 0,
             float size = 1f,
             float opacity = 1f,

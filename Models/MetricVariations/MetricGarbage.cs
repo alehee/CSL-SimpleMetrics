@@ -1,4 +1,4 @@
-﻿namespace CSL_SimpleMetrics.Models.MetricsVariations
+﻿namespace CSL_SimpleMetrics.Models.MetricVariations
 {
     public class MetricGarbage : Metric
     {
