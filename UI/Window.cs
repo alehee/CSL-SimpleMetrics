@@ -96,11 +96,13 @@ namespace CSL_SimpleMetrics.UI
                     color: new Color(0f, 0f, 0f)
                 );
 
-                _sprites[metric] = _uiFactory.CreateSprite(
+                var iconSprite = _uiFactory.CreateSprite(
                     name: metric.ToString(), 
                     horizontalMargin: horizontalMargin,
                     size: 0.7f
                 );
+                iconSprite.tooltip = "meh meh";
+                _sprites[metric] = iconSprite;
 
                 horizontalMargin += 0.045f;
             }
@@ -137,12 +139,25 @@ namespace CSL_SimpleMetrics.UI
         {
             var dragHandlerGameObject = new GameObject("DragHandler");
             dragHandlerGameObject.transform.parent = this.transform;
-            dragHandlerGameObject.transform.localPosition = Vector3.zero;
+
             var dragHandler = dragHandlerGameObject.AddComponent<UIDragHandle>();
-            dragHandler.width = _bodyPanel.width;
-            dragHandler.height = _bodyPanel.height;
-            dragHandler.zOrder = (int)WindowZOrderEnum.Foreground;
-            dragHandler.BringToFront();
+
+            // Set size for the drag handler
+            dragHandler.width = _windowSettings.Height / 2; // kept from original logic
+            dragHandler.height = _windowSettings.Height / 2;
+
+            // Compute position so the handler sits on the right edge and is vertically centered.
+            // Use a small margin from the right edge (in pixels).
+            float rightMargin = 5f;
+            float posX = this.width - dragHandler.width - rightMargin;
+            float posY = (this.height - dragHandler.height) / 2f;
+
+            // Apply computed local position
+            dragHandlerGameObject.transform.localPosition = new Vector3(posX, posY, 0f);
+
+            dragHandler.zOrder = (int)WindowZOrderEnum.Content;
+            dragHandler.isInteractive = true;
+            dragHandler.target = this;
         }
     }
 }

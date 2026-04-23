@@ -53,11 +53,10 @@ namespace CSL_SimpleMetrics.Factories
             sprite.zOrder = (int)zOrderEnum;
 
             if (color.HasValue)
-            {
                 sprite.color = color.Value;
-            }
 
             sprite.opacity = opacity;
+
             return sprite;
         }
     }
