@@ -79,6 +79,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Assets\Backgrounds\Background.png" />
     <EmbeddedResource Include="Assets\Backgrounds\Indicator.png" />
+    <EmbeddedResource Include="Assets\Backgrounds\Move.png" />
     <EmbeddedResource Include="Assets\Icons\Cemetery.png" />
     <EmbeddedResource Include="Assets\Icons\ChildCare.png" />
     <EmbeddedResource Include="Assets\Icons\Crematorium.png" />

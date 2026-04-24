@@ -17,6 +17,9 @@ namespace CSL_SimpleMetrics.UI
         private GameObject _windowGameObject;
 
         private UIPanel _bodyPanel;
+
+        private GameObject _dragHandlerGameObject;
+
         private UITextureAtlas _atlas;
         private Dictionary<MetricsEnum, UILabel> _labels; // Temporary objects
         private Dictionary<MetricsEnum, UISprite> _sprites;
@@ -27,6 +30,9 @@ namespace CSL_SimpleMetrics.UI
         private UIFactory _uiFactory;
         private MetricsService _metricsService;
         private TextureAtlasService _textureAtlasService;
+
+        private bool _isMouseOverPanel = false;
+        private bool _isMouseOverDragHandler = false;
 
         private bool logGenerated = false; // TODO remove
 
@@ -43,7 +49,10 @@ namespace CSL_SimpleMetrics.UI
 
             _windowGameObject = CreateWindowGameObject();
             _bodyPanel = CreateBodyPanel();
-            CreateDragHandler();
+
+            _dragHandlerGameObject = CreateDragHandler();
+
+            CreateMouseEvents();
 
             _labels = new Dictionary<MetricsEnum, UILabel>();
             _sprites = new Dictionary<MetricsEnum, UISprite>();
@@ -97,11 +106,11 @@ namespace CSL_SimpleMetrics.UI
                 );
 
                 var iconSprite = _uiFactory.CreateSprite(
-                    name: metric.ToString(), 
+                    name: metric.ToString(),
                     horizontalMargin: horizontalMargin,
                     size: 0.7f
                 );
-                iconSprite.tooltip = "meh meh";
+                iconSprite.tooltip = "meh\nmeh";
                 _sprites[metric] = iconSprite;
 
                 horizontalMargin += 0.045f;
@@ -135,29 +144,61 @@ namespace CSL_SimpleMetrics.UI
             return panel;
         }
 
-        private void CreateDragHandler()
+        private GameObject CreateDragHandler()
         {
             var dragHandlerGameObject = new GameObject("DragHandler");
             dragHandlerGameObject.transform.parent = this.transform;
+            dragHandlerGameObject.transform.localPosition = Vector3.zero;
 
             var dragHandler = dragHandlerGameObject.AddComponent<UIDragHandle>();
-
-            // Set size for the drag handler
-            dragHandler.width = _windowSettings.Height / 2; // kept from original logic
-            dragHandler.height = _windowSettings.Height / 2;
-
-            // Compute position so the handler sits on the right edge and is vertically centered.
-            // Use a small margin from the right edge (in pixels).
-            float rightMargin = 5f;
-            float posX = this.width - dragHandler.width - rightMargin;
-            float posY = (this.height - dragHandler.height) / 2f;
-
-            // Apply computed local position
-            dragHandlerGameObject.transform.localPosition = new Vector3(posX, posY, 0f);
-
+            dragHandler.width = _windowSettings.Height / 4;
+            dragHandler.height = _windowSettings.Height / 4;
             dragHandler.zOrder = (int)WindowZOrderEnum.Content;
             dragHandler.isInteractive = true;
             dragHandler.target = this;
+
+            UIFactory dragHandlerUiFactory = new UIFactory(dragHandlerGameObject.transform, _atlas);
+            var dragSprite = dragHandlerUiFactory.CreateSprite(
+                name: "Move",
+                zOrderEnum: WindowZOrderEnum.Background
+            );
+            dragSprite.width = dragHandler.width;
+            dragSprite.height = dragHandler.height;
+            dragSprite.isVisible = false;
+
+            return dragHandlerGameObject;
+        }
+
+        private void CreateMouseEvents()
+        {
+            _bodyPanel.eventMouseEnter += (component, eventParam) =>
+            {
+                _isMouseOverPanel = true;
+                _dragHandlerGameObject.GetComponentInChildren<UISprite>().isVisible = true;
+            };
+            _bodyPanel.eventMouseLeave += (component, eventParam) =>
+            {
+                _isMouseOverPanel = false;
+                CheckMouseOver();
+            };
+            _dragHandlerGameObject.GetComponent<UIDragHandle>().eventMouseEnter += (component, eventParam) =>
+            {
+                _isMouseOverDragHandler = true;
+                _dragHandlerGameObject.GetComponentInChildren<UISprite>().isVisible = true;
+            };
+            _dragHandlerGameObject.GetComponent<UIDragHandle>().eventMouseLeave += (component, eventParam) =>
+            {
+                _isMouseOverDragHandler = false;
+                CheckMouseOver();
+            };
+        }
+
+        private void CheckMouseOver()
+        {
+            if (!_isMouseOverPanel && !_isMouseOverDragHandler)
+            {
+                _dragHandlerGameObject.GetComponentInChildren<UISprite>().isVisible = false;
+            }
         }
     }
 }

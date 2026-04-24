@@ -86,7 +86,7 @@ namespace CSL_SimpleMetrics.Services
                 .Cast<MetricsEnum>()
                 .Select(metric => metric.ToString())
                 .ToArray();
-            var backgroundNames = new string[] { "Background", "Indicator" };
+            var backgroundNames = new string[] { "Background", "Indicator", "Move" };
 
             var result = new Dictionary<string, string>();
 
