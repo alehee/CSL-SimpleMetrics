@@ -3,6 +3,7 @@ using CSL_SimpleMetrics.Configuration;
 using CSL_SimpleMetrics.Factories;
 using CSL_SimpleMetrics.Helpers;
 using CSL_SimpleMetrics.Models;
+using CSL_SimpleMetrics.Models.Helpers;
 using CSL_SimpleMetrics.Services;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace CSL_SimpleMetrics.UI
 
         private UITextureAtlas _atlas;
         private Dictionary<MetricsEnum, UILabel> _labels; // Temporary objects
-        private Dictionary<MetricsEnum, UISprite> _sprites;
+        private Dictionary<MetricsEnum, SpriteAndLocale> _sprites;
         private Dictionary<MetricsEnum, UISprite> _indicatorSprites;
 
         private WindowSettings _windowSettings;
@@ -55,7 +56,7 @@ namespace CSL_SimpleMetrics.UI
             CreateMouseEvents();
 
             _labels = new Dictionary<MetricsEnum, UILabel>();
-            _sprites = new Dictionary<MetricsEnum, UISprite>();
+            _sprites = new Dictionary<MetricsEnum, SpriteAndLocale>();
             _indicatorSprites = new Dictionary<MetricsEnum, UISprite>();
 
             _uiFactory = new UIFactory(_windowGameObject.transform, _atlas);
@@ -110,8 +111,9 @@ namespace CSL_SimpleMetrics.UI
                     horizontalMargin: horizontalMargin,
                     size: 0.7f
                 );
-                iconSprite.tooltip = "meh\nmeh";
-                _sprites[metric] = iconSprite;
+                string spriteLocaleString = LocaleHelper.GetMetricsLocaleString(metric);
+                iconSprite.tooltip = spriteLocaleString;
+                _sprites[metric] = new SpriteAndLocale { Sprite = iconSprite, Locale = spriteLocaleString };
 
                 horizontalMargin += 0.045f;
             }
