@@ -55,7 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviours\Manager.cs" />
-    <Compile Include="Configuration\AppInformation.cs" />
+    <Compile Include="Configuration\ConstConfiguration.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Factories\UIFactory.cs" />
     <Compile Include="Helpers\SpriteHelper.cs" />
@@ -70,7 +70,6 @@
     <Compile Include="Models\MetricVariations\MetricFireSafety.cs" />
     <Compile Include="Models\MetricVariations\MetricGarbage.cs" />
     <Compile Include="Models\MetricVariations\MetricLibrary.cs" />
-    <Compile Include="Models\WindowSettings.cs" />
     <Compile Include="Models\WindowZOrderEnum.cs" />
     <Compile Include="Services\MetricsService.cs" />
     <Compile Include="Services\TextureAtlasService.cs" />

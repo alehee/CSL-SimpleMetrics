@@ -6,7 +6,7 @@ namespace CSL_SimpleMetrics.Behaviours
 {
     public class Manager : MonoBehaviour
     {
-        public static string Name => $"{AppInformation.AppPrefix}_Manager";
+        public static string Name => $"{ConstConfiguration.AppPrefix}_Manager";
 
         private float _timer;
         private float _interval = 2f; // Seconds

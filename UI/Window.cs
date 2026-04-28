@@ -13,7 +13,7 @@ namespace CSL_SimpleMetrics.UI
 {
     public class Window : UIPanel
     {
-        public static string Name => $"{AppInformation.AppPrefix}_Window";
+        public static string Name => $"{ConstConfiguration.AppPrefix}_Window";
 
         private GameObject _windowGameObject;
 
@@ -24,8 +24,6 @@ namespace CSL_SimpleMetrics.UI
         private UITextureAtlas _atlas;
         private Dictionary<MetricsEnum, SpriteAndLocale> _sprites;
         private Dictionary<MetricsEnum, UISprite> _indicatorSprites;
-
-        private WindowSettings _windowSettings;
 
         private UIFactory _uiFactory;
         private MetricsService _metricsService;
@@ -39,8 +37,6 @@ namespace CSL_SimpleMetrics.UI
         public override void Start()
         {
             this.relativePosition = new Vector3(50, 50); // TODO here's just a placeholder
-
-            _windowSettings = new WindowSettings(); // TODO maybe in the future -> load from config file
 
             base.Start();
 
@@ -79,7 +75,7 @@ namespace CSL_SimpleMetrics.UI
             foreach (MetricsEnum metric in metrics.Keys)
             {
                 var indicatorSprite = _indicatorSprites[metric];
-                SpriteHelper.ChangeSpriteColor(ref indicatorSprite, metrics.Get(metric).Ratio, _windowSettings.IndicatorOpacity);
+                SpriteHelper.ChangeSpriteColor(ref indicatorSprite, metrics.Get(metric).Ratio, ConstConfiguration.IndicatorOpacity);
 
                 _sprites[metric].Sprite.tooltip = SpriteHelper.GetFormattedTooltip(
                     _sprites[metric].Locale, 
@@ -104,7 +100,7 @@ namespace CSL_SimpleMetrics.UI
                     horizontalMargin: horizontalMargin,
                     size: 0.7f,
                     zOrderEnum: WindowZOrderEnum.Indicator,
-                    opacity: _windowSettings.IndicatorOpacity,
+                    opacity: ConstConfiguration.IndicatorOpacity,
                     color: new Color(0f, 0f, 0f)
                 );
 
@@ -124,9 +120,9 @@ namespace CSL_SimpleMetrics.UI
         private GameObject CreateWindowGameObject()
         {
             var gameObject = new GameObject(Name);
-            gameObject.transform.parent = GameObject.Find(AppInformation.AppPrefix).transform;
-            this.width = _windowSettings.Width;
-            this.height = _windowSettings.Height;
+            gameObject.transform.parent = GameObject.Find(ConstConfiguration.AppPrefix).transform;
+            this.width = ConstConfiguration.Width;
+            this.height = ConstConfiguration.Height;
 
             return gameObject;
         }
@@ -139,8 +135,8 @@ namespace CSL_SimpleMetrics.UI
             panel.isVisible = true;
             panel.canFocus = true;
             panel.isInteractive = true;
-            panel.width = _windowSettings.Width;
-            panel.height = _windowSettings.Height;
+            panel.width = ConstConfiguration.Width;
+            panel.height = ConstConfiguration.Height;
             panel.padding = new RectOffset(5, 5, 5, 5);
             panel.relativePosition = Vector3.zero;
             panel.zOrder = (int)WindowZOrderEnum.Background;
@@ -155,8 +151,8 @@ namespace CSL_SimpleMetrics.UI
             dragHandlerGameObject.transform.localPosition = Vector3.zero;
 
             var dragHandler = dragHandlerGameObject.AddComponent<UIDragHandle>();
-            dragHandler.width = _windowSettings.Height / 4;
-            dragHandler.height = _windowSettings.Height / 4;
+            dragHandler.width = ConstConfiguration.Height / 4;
+            dragHandler.height = ConstConfiguration.Height / 4;
             dragHandler.zOrder = (int)WindowZOrderEnum.Content;
             dragHandler.isInteractive = true;
             dragHandler.target = this;

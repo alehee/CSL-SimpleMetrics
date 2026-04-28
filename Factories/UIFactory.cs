@@ -43,7 +43,7 @@ namespace CSL_SimpleMetrics.Factories
             Color? color = null
         )
         {
-            var gameObject = new GameObject($"{AppInformation.AppPrefix}_Sprite_{name}");
+            var gameObject = new GameObject($"{ConstConfiguration.AppPrefix}_Sprite_{name}");
             gameObject.transform.parent = _parent;
             gameObject.transform.localPosition = new Vector3(horizontalMargin, verticalMargin);
             gameObject.transform.localScale = new Vector3(size, size, 1);
