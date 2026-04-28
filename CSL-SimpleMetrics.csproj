@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviours\Manager.cs" />
+    <Compile Include="Configuration\ConfigurationSerializer.cs" />
     <Compile Include="Configuration\ConstConfiguration.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Factories\UIFactory.cs" />
