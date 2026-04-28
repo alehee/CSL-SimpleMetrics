@@ -25,9 +25,6 @@ namespace CSL_SimpleMetrics.Behaviours
                 _timer = 0f;
 
                 metricsService.UpdateCapacityAndConsumption();
-
-                // Testing method
-                //metricsService.PrintMetrics();
             }
 
             _timer += Time.deltaTime;

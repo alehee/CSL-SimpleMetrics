@@ -58,7 +58,7 @@
     <Compile Include="Configuration\AppInformation.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Factories\UIFactory.cs" />
-    <Compile Include="Helpers\ColorHelper.cs" />
+    <Compile Include="Helpers\SpriteHelper.cs" />
     <Compile Include="Helpers\LocaleHelper.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogLevelEnum.cs" />

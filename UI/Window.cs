@@ -22,7 +22,6 @@ namespace CSL_SimpleMetrics.UI
         private GameObject _dragHandlerGameObject;
 
         private UITextureAtlas _atlas;
-        private Dictionary<MetricsEnum, UILabel> _labels; // Temporary objects
         private Dictionary<MetricsEnum, SpriteAndLocale> _sprites;
         private Dictionary<MetricsEnum, UISprite> _indicatorSprites;
 
@@ -55,7 +54,6 @@ namespace CSL_SimpleMetrics.UI
 
             CreateMouseEvents();
 
-            _labels = new Dictionary<MetricsEnum, UILabel>();
             _sprites = new Dictionary<MetricsEnum, SpriteAndLocale>();
             _indicatorSprites = new Dictionary<MetricsEnum, UISprite>();
 
@@ -80,8 +78,13 @@ namespace CSL_SimpleMetrics.UI
 
             foreach (MetricsEnum metric in metrics.Keys)
             {
-                var sprite = _indicatorSprites[metric];
-                ColorHelper.ChangeSpriteColor(ref sprite, metrics.Get(metric).Ratio, _windowSettings.IndicatorOpacity);
+                var indicatorSprite = _indicatorSprites[metric];
+                SpriteHelper.ChangeSpriteColor(ref indicatorSprite, metrics.Get(metric).Ratio, _windowSettings.IndicatorOpacity);
+
+                _sprites[metric].Sprite.tooltip = SpriteHelper.GetFormattedTooltip(
+                    _sprites[metric].Locale, 
+                    metrics.Get(metric).Ratio
+                );
 
                 if (!logGenerated)
                 {
@@ -112,7 +115,7 @@ namespace CSL_SimpleMetrics.UI
                     size: 0.7f
                 );
                 string spriteLocaleString = LocaleHelper.GetMetricsLocaleString(metric);
-                iconSprite.tooltip = spriteLocaleString;
+                iconSprite.tooltip = SpriteHelper.GetFormattedTooltip(spriteLocaleString, 0f);
                 _sprites[metric] = new SpriteAndLocale { Sprite = iconSprite, Locale = spriteLocaleString };
 
                 horizontalMargin += 0.045f;

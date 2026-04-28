@@ -3,9 +3,22 @@ using UnityEngine;
 
 namespace CSL_SimpleMetrics.Helpers
 {
-    public static class ColorHelper
+    public static class SpriteHelper
     {
-        public static Color GetGradientColor(float ratio)
+        public static void ChangeSpriteColor(ref UISprite sprite, float ratio, float opacity)
+        {
+            sprite.color = GetGradientColor(ratio);
+            sprite.opacity = opacity;
+        }
+
+        public static string GetFormattedTooltip(string locale, float ratio)
+        {
+            int percentage = Mathf.Clamp(Mathf.RoundToInt(ratio * 100), 0, 100);
+
+            return $"{locale}\n{percentage}%";
+        }
+
+        private static Color GetGradientColor(float ratio)
         {
             float r = 1f;
             float g = 1f;
@@ -25,12 +38,6 @@ namespace CSL_SimpleMetrics.Helpers
             }
 
             return new Color(r, g, 0f);
-        }
-
-        public static void ChangeSpriteColor(ref UISprite sprite, float ratio, float opacity)
-        {
-            sprite.color = GetGradientColor(ratio);
-            sprite.opacity = opacity;
         }
     }
 }
