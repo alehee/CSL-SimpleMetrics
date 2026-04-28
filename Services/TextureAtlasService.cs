@@ -48,7 +48,6 @@ namespace CSL_SimpleMetrics.Services
                     region = regions[spriteCounter]
                 };
 
-                // TODO adjust it to the sprite
                 if (sprite.name == "Background")
                 {
                     int left = 8;

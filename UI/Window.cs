@@ -34,7 +34,7 @@ namespace CSL_SimpleMetrics.UI
         private bool _isMouseOverPanel = false;
         private bool _isMouseOverDragHandler = false;
 
-        private bool logGenerated = false; // TODO remove
+        private bool _isDebug = false; // Helper variable to enable some debug logs
 
         public override void Start()
         {
@@ -86,13 +86,12 @@ namespace CSL_SimpleMetrics.UI
                     metrics.Get(metric).Ratio
                 );
 
-                if (!logGenerated)
+                if (_isDebug)
                 {
                     Logger.Log($"{metric.ToString()}: {metrics.Get(metric).Ratio}");
                     Logger.Log($"{metrics.Get(metric).ToString()}");
                 }
             }
-            logGenerated = true;
         }
 
         private void CreateMetricsSprites()

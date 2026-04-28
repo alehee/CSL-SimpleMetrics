@@ -169,18 +169,5 @@ namespace CSL_SimpleMetrics.Services
                     return null;
             }
         }
-
-        // Testing method
-        public void PrintMetrics()
-        {
-            // Print the metrics for testing purposes
-            //foreach (MetricsEnum metricKey in new List<MetricsEnum> { MetricsEnum.FireSafety })
-
-            foreach (MetricsEnum metricKey in _metrics.Keys)
-            {
-                Metric metric = _metrics.Get(metricKey);
-                Logger.Log($"{metricKey} - Capacity: {metric.Capacity:0.0}, Consumption: {metric.Consumption:0.0}, Ratio: {metric.Ratio:0.00}");
-            }
-        }
     }
 }
