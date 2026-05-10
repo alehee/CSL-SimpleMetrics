@@ -3,7 +3,6 @@ using ColossalFramework;
 using CSL_SimpleMetrics.Models;
 using CSL_SimpleMetrics.Models.MetricVariations;
 using UnityEngine;
-using Logger = CSL_SimpleMetrics.Logging.Logger;
 
 namespace CSL_SimpleMetrics.Services
 {

@@ -5,6 +5,7 @@ using CSL_SimpleMetrics.Helpers;
 using CSL_SimpleMetrics.Models;
 using CSL_SimpleMetrics.Models.Helpers;
 using CSL_SimpleMetrics.Services;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
@@ -25,6 +26,7 @@ namespace CSL_SimpleMetrics.UI
         private Dictionary<MetricsEnum, SpriteAndLocale> _sprites;
         private Dictionary<MetricsEnum, UISprite> _indicatorSprites;
 
+        private ConfigurationSingleton _configurationSingleton;
         private UIFactory _uiFactory;
         private MetricsService _metricsService;
         private TextureAtlasService _textureAtlasService;
@@ -36,9 +38,10 @@ namespace CSL_SimpleMetrics.UI
 
         public override void Start()
         {
-            this.relativePosition = new Vector3(50, 50); // TODO here's just a placeholder
-
             base.Start();
+
+            _configurationSingleton = ConfigurationSingleton.GetInstance();
+            this.relativePosition = _configurationSingleton.GetConfiguration().WindowPosition;
 
             _textureAtlasService = new TextureAtlasService();
             _atlas = _textureAtlasService.GetAtlas();
@@ -63,7 +66,16 @@ namespace CSL_SimpleMetrics.UI
 
         private void OnMetricsUpdated()
         {
-            OnMetricsUpdated(_indicatorSprites);
+            try
+            {
+                OnMetricsUpdated(_indicatorSprites);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogException("Error updating metrics", ex);
+                Logger.Log("Recreating sprites to fix potential issues.");
+                CreateMetricsSprites();
+            }
         }
 
         private void OnMetricsUpdated(Dictionary<MetricsEnum, UISprite> _indicatorSprites)
@@ -171,6 +183,7 @@ namespace CSL_SimpleMetrics.UI
 
         private void CreateMouseEvents()
         {
+            // Drag indicator visibility
             _bodyPanel.eventMouseEnter += (component, eventParam) =>
             {
                 _isMouseOverPanel = true;
@@ -190,6 +203,14 @@ namespace CSL_SimpleMetrics.UI
             {
                 _isMouseOverDragHandler = false;
                 CheckMouseOver();
+            };
+            
+            // Drag event saving position
+            _dragHandlerGameObject.GetComponent<UIDragHandle>().eventMouseUp += (component, eventParam) =>
+            {
+                Models.Configuration configuration = _configurationSingleton.GetConfiguration();
+                configuration.WindowPosition = this.relativePosition;
+                _configurationSingleton.Update(configuration);
             };
         }
 
