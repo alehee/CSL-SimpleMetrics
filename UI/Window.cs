@@ -121,7 +121,7 @@ namespace CSL_SimpleMetrics.UI
 
         private void CreateMetricsSprites()
         {
-            float horizontalMargin = 0.01f;
+            float horizontalMargin = (0.0133f * SpriteHelper.GetHorizontalMultiplier(_resolution));
             foreach (MetricsEnum metric in _metricsService.GetMetrics().Keys)
             {
                 _indicatorSprites[metric] = _uiFactory.CreateSprite(
@@ -142,7 +142,7 @@ namespace CSL_SimpleMetrics.UI
                 iconSprite.tooltip = SpriteHelper.GetFormattedTooltip(spriteLocaleString, 0f);
                 _sprites[metric] = new SpriteAndLocale { Sprite = iconSprite, Locale = spriteLocaleString };
 
-                horizontalMargin += 0.045f;
+                horizontalMargin += (0.06f * SpriteHelper.GetHorizontalMultiplier(_resolution));
             }
         }
 

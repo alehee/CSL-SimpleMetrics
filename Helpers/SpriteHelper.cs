@@ -1,5 +1,6 @@
 ﻿using ColossalFramework.UI;
 using UnityEngine;
+using Resolution = CSL_SimpleMetrics.Models.Helpers.Resolution;
 
 namespace CSL_SimpleMetrics.Helpers
 {
@@ -17,6 +18,8 @@ namespace CSL_SimpleMetrics.Helpers
 
             return $"{locale}\n{percentage}%";
         }
+
+        public static float GetHorizontalMultiplier(Resolution resolution) => 1920f / resolution.Width;
 
         private static Color GetGradientColor(float ratio)
         {
