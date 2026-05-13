@@ -40,8 +40,7 @@ namespace CSL_SimpleMetrics.UI
         {
             base.Start();
 
-            _configurationSingleton = ConfigurationSingleton.GetInstance();
-            this.relativePosition = _configurationSingleton.GetConfiguration().WindowPosition;
+            LoadConfiguration();
 
             _textureAtlasService = new TextureAtlasService();
             _atlas = _textureAtlasService.GetAtlas();
@@ -62,6 +61,21 @@ namespace CSL_SimpleMetrics.UI
             _metricsService.MetricsUpdated += OnMetricsUpdated;
 
             CreateMetricsSprites();
+        }
+
+        private void LoadConfiguration()
+        {
+            _configurationSingleton = ConfigurationSingleton.GetInstance();
+
+            Vector3 windowPosition;
+            if (_configurationSingleton.GetConfiguration().WindowPosition.HasValue)
+                windowPosition = _configurationSingleton.GetConfiguration().WindowPosition.Value;
+            else
+            {
+                windowPosition = ScreenHelper.GetDefaultWindowPosition();
+                UpdateWindowPosition(windowPosition);
+            }
+            this.relativePosition = windowPosition;
         }
 
         private void OnMetricsUpdated()
@@ -208,9 +222,7 @@ namespace CSL_SimpleMetrics.UI
             // Drag event saving position
             _dragHandlerGameObject.GetComponent<UIDragHandle>().eventMouseUp += (component, eventParam) =>
             {
-                Models.Configuration configuration = _configurationSingleton.GetConfiguration();
-                configuration.WindowPosition = this.relativePosition;
-                _configurationSingleton.Update(configuration);
+                UpdateWindowPosition(this.relativePosition);
             };
         }
 
@@ -220,6 +232,14 @@ namespace CSL_SimpleMetrics.UI
             {
                 _dragHandlerGameObject.GetComponentInChildren<UISprite>().isVisible = false;
             }
+        }
+
+        private void UpdateWindowPosition(Vector3 newPosition)
+        {
+            Models.Configuration configuration = _configurationSingleton.GetConfiguration();
+            configuration.WindowPosition = newPosition;
+            _configurationSingleton.Update(configuration);
+            Logger.Log($"Window position updated: {newPosition}");// TODO remove
         }
     }
 }

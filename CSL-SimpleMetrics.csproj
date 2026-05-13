@@ -59,11 +59,13 @@
     <Compile Include="Configuration\ConstConfiguration.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Factories\UIFactory.cs" />
+    <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\SpriteHelper.cs" />
     <Compile Include="Helpers\LocaleHelper.cs" />
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\LogLevelEnum.cs" />
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Models\Helpers\Resolution.cs" />
     <Compile Include="Models\Helpers\SpriteAndLocale.cs" />
     <Compile Include="Models\Metric.cs" />
     <Compile Include="Models\MetricsCombined.cs" />
