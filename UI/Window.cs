@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
+using Resolution = CSL_SimpleMetrics.Models.Helpers.Resolution;
 
 namespace CSL_SimpleMetrics.UI
 {
@@ -27,6 +28,7 @@ namespace CSL_SimpleMetrics.UI
         private Dictionary<MetricsEnum, UISprite> _indicatorSprites;
 
         private ConfigurationSingleton _configurationSingleton;
+        private Resolution _resolution;
         private UIFactory _uiFactory;
         private MetricsService _metricsService;
         private TextureAtlasService _textureAtlasService;
@@ -65,6 +67,7 @@ namespace CSL_SimpleMetrics.UI
 
         private void LoadConfiguration()
         {
+            _resolution = ScreenHelper.GetResolution();
             _configurationSingleton = ConfigurationSingleton.GetInstance();
 
             Vector3 windowPosition;
@@ -239,7 +242,9 @@ namespace CSL_SimpleMetrics.UI
             Models.Configuration configuration = _configurationSingleton.GetConfiguration();
             configuration.WindowPosition = newPosition;
             _configurationSingleton.Update(configuration);
-            Logger.Log($"Window position updated: {newPosition}");// TODO remove
+
+            if (_isDebug)
+                Logger.Log($"Window position updated: {newPosition}");
         }
     }
 }

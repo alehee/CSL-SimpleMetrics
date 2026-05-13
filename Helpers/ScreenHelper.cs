@@ -10,7 +10,7 @@ namespace CSL_SimpleMetrics.Helpers
             return new Vector3(180,10);
         }
 
-        private static Resolution GetResolution()
+        public static Resolution GetResolution()
         {
             return new Resolution
             {
