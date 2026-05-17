@@ -9,8 +9,7 @@
 
         public override float GetRatio()
         {
-            float ratio = base.GetRatio();
-            return 2 - ratio;
+            return Capacity != 0 ? 1 - (Consumption / Capacity) : 0;
         }
     }
 }
