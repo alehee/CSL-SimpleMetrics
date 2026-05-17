@@ -5,10 +5,14 @@
 ![.NET Framework](https://img.shields.io/badge/.NET-3.5-512BD4)
 
 <p align="center">
-  <img src="Assets/Docs/banner.png" alt="CSL-SimpleMetrics banner" />
+  <img src="Assets/Docs/Logo.png" alt="CSL-SimpleMetrics logo" />
 </p>
 
 Lightweight metrics bar mod for Cities: Skylines. It adds a compact, draggable overlay that shows service capacity vs. usage with color-coded indicators on the in-game UI.
+
+<p align="center">
+  <img src="Assets/Docs/banner.png" alt="CSL-SimpleMetrics banner" />
+</p>
 
 Additionally, it might be a great CSL modding entry point as I tried to build it with clean code standards.
 
