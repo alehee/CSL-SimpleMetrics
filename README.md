@@ -22,6 +22,31 @@ This is my first game modding project from scratch. I hope you find it useful.
 
 Coming soon.
 
+## Metric types
+
+Mod supports all basic service metrics available in the base Cities: Skylines game.
+
+- Electricity
+- Water
+- Heating
+- Sewage
+- Garbage
+- Incineration
+- Healthcare
+- Childcare
+- Senior Care
+- Crematorium
+- Cemetery
+- Education
+  - Elementary
+  - High School
+  - University
+- Library
+- Fire Department
+- Police Department
+
+At the moment, there are **no plans on handling metrics available in DLCs**.
+
 ## Development Notes
 
 - Load hook: `Extensions/LoadingExtension.cs`
