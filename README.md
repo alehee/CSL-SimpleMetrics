@@ -20,7 +20,9 @@ This is my first game modding project from scratch. I hope you find it useful.
 
 ## Steam Workshop
 
-Coming soon.
+Workshop item is available [here](https://steamcommunity.com/sharedfiles/filedetails/?id=3728637900).
+
+Enjoy!
 
 ## Metric types
 
