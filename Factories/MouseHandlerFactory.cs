@@ -3,6 +3,8 @@ using CSL_SimpleMetrics.Helpers;
 using CSL_SimpleMetrics.Logging;
 using CSL_SimpleMetrics.Models;
 using System;
+using UnityEngine;
+using Logger = CSL_SimpleMetrics.Logging.Logger;
 
 namespace CSL_SimpleMetrics.Factories
 {
@@ -41,6 +43,10 @@ namespace CSL_SimpleMetrics.Factories
             return (component, eventParam) =>
             {
                 _mainTabstrip.selectedIndex = metricIndex.Value;
+                
+                // Optionally switch tab in the panel
+                TrySwitchTab(metricEnum);
+
                 Logger.Log($"Selected {metricEnum} tabstrip index {metricIndex.Value}.");
             };
         }
@@ -76,6 +82,48 @@ namespace CSL_SimpleMetrics.Factories
                     Logger.Log($"No metric index found for {metricsEnum}. Defaulting to null.", LogLevelEnum.Warning);
                     return null;
             }
+        }
+
+        private void TrySwitchTab(MetricsEnum metricsEnum)
+        {
+            switch(metricsEnum)
+            {
+                case MetricsEnum.ChildCare:
+                case MetricsEnum.SeniorCare:
+                case MetricsEnum.Crematorium:
+                case MetricsEnum.Cemetery:
+                    SwitchTabInHealthcarePanel(metricsEnum);
+                    break;
+                case MetricsEnum.EducationHighSchool:
+                case MetricsEnum.EducationUniversity:
+                case MetricsEnum.Library:
+                    SwitchTabInEducationPanel(metricsEnum);
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        private void SwitchTabInHealthcarePanel(MetricsEnum metricsEnum)
+        {
+            switch (metricsEnum)
+            {
+                case MetricsEnum.Crematorium:
+                case MetricsEnum.Cemetery:
+                    GameObject.Find("Deathcare").GetComponent<UIButton>().SimulateClick();
+                    break;
+                default:
+                    return;
+            }
+
+            // TODO
+            throw new NotImplementedException("Switching tabs in the healthcare panel is not implemented yet.");
+        }
+
+        private void SwitchTabInEducationPanel(MetricsEnum metricsEnum)
+        {
+            // TODO
+            throw new NotImplementedException("Switching tabs in the education panel is not implemented yet.");
         }
     }
 }
