@@ -47,11 +47,31 @@ namespace CSL_SimpleMetrics.Factories
 
         private int? GetTabstripMetricIndex(MetricsEnum metricsEnum)
         {
-            // TODO: implement rest of the metrics
             switch(metricsEnum)
             {
+                case MetricsEnum.Electricity:
+                    return 4;
                 case MetricsEnum.Water:
+                case MetricsEnum.Sewage:
                     return 5;
+                case MetricsEnum.Garbage:
+                case MetricsEnum.GarbageIncineration:
+                    return 6;
+                case MetricsEnum.Healthcare:
+                case MetricsEnum.ChildCare:     // Additional tab change needed
+                case MetricsEnum.SeniorCare:    // Additional tab change needed
+                case MetricsEnum.Crematorium:   // Additional tab change needed
+                case MetricsEnum.Cemetery:      // Additional tab change needed
+                    return 8;
+                case MetricsEnum.EducationElementary:
+                case MetricsEnum.EducationHighSchool:   // Additional tab change needed
+                case MetricsEnum.EducationUniversity:   // Additional tab change needed
+                case MetricsEnum.Library:               // Additional tab change needed
+                    return 12;
+                case MetricsEnum.Police:
+                    return 10;
+                case MetricsEnum.FireSafety:
+                    return 9;
                 default:
                     Logger.Log($"No metric index found for {metricsEnum}. Defaulting to null.", LogLevelEnum.Warning);
                     return null;
