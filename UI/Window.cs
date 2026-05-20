@@ -30,6 +30,7 @@ namespace CSL_SimpleMetrics.UI
         private ConfigurationSingleton _configurationSingleton;
         private Resolution _resolution;
         private UIFactory _uiFactory;
+        private MouseHandlerFactory _mouseHandlerFactory;
         private MetricsService _metricsService;
         private TextureAtlasService _textureAtlasService;
 
@@ -58,6 +59,7 @@ namespace CSL_SimpleMetrics.UI
             _indicatorSprites = new Dictionary<MetricsEnum, UISprite>();
 
             _uiFactory = new UIFactory(_windowGameObject.transform, _atlas);
+            _mouseHandlerFactory = new MouseHandlerFactory();
 
             _metricsService = MetricsService.GetInstance();
             _metricsService.MetricsUpdated += OnMetricsUpdated;
@@ -138,8 +140,18 @@ namespace CSL_SimpleMetrics.UI
                     horizontalMargin: horizontalMargin,
                     size: 0.7f
                 );
+
                 string spriteLocaleString = LocaleHelper.GetMetricsLocaleString(metric);
                 iconSprite.tooltip = SpriteHelper.GetFormattedTooltip(spriteLocaleString, 0f);
+
+                var clickHandler = _mouseHandlerFactory.CreateMouseClickHandler(metric);
+                if (clickHandler != null)
+                {
+                    iconSprite.isInteractive = true;
+                    iconSprite.canFocus = true;
+                    iconSprite.eventClick += clickHandler;
+                }
+
                 _sprites[metric] = new SpriteAndLocale { Sprite = iconSprite, Locale = spriteLocaleString };
 
                 horizontalMargin += (0.06f * SpriteHelper.GetHorizontalMultiplier(_resolution));
