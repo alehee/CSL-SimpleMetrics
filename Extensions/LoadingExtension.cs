@@ -19,7 +19,7 @@ namespace CSL_SimpleMetrics.Extensions
             if (mode != LoadMode.LoadGame && mode != LoadMode.NewGame)
                 return;
 
-            _modGameObject = new GameObject(ConstConfiguration.AppPrefix);
+            _modGameObject = new GameObject(ConfigurationConstants.AppPrefix);
             _modGameObject.transform.parent = GetUIViewGameObject().transform;
             _modGameObject.AddComponent<Manager>();
             _modGameObject.AddComponent<Window>();

@@ -1,6 +1,6 @@
 ﻿namespace CSL_SimpleMetrics.Configuration
 {
-    public class ConstConfiguration
+    public class ConfigurationConstants
     {
         public static string AppPrefix => "CSL_SimpleMetrics";
         public static string ConfigurationFileName => $"{AppPrefix}_Config.xml";

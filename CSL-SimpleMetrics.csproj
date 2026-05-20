@@ -56,14 +56,14 @@
   <ItemGroup>
     <Compile Include="Behaviours\Manager.cs" />
     <Compile Include="Configuration\ConfigurationSingleton.cs" />
-    <Compile Include="Configuration\ConstConfiguration.cs" />
+    <Compile Include="Configuration\ConfigurationConstants.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
     <Compile Include="Factories\UIFactory.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\SpriteHelper.cs" />
     <Compile Include="Helpers\LocaleHelper.cs" />
     <Compile Include="Logging\Logger.cs" />
-    <Compile Include="Logging\LogLevelEnum.cs" />
+    <Compile Include="Logging\Models\LogLevelEnum.cs" />
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Models\Helpers\Resolution.cs" />
     <Compile Include="Models\Helpers\SpriteAndLocale.cs" />

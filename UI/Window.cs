@@ -15,7 +15,7 @@ namespace CSL_SimpleMetrics.UI
 {
     public class Window : UIPanel
     {
-        public static string Name => $"{ConstConfiguration.AppPrefix}_Window";
+        public static string Name => $"{ConfigurationConstants.AppPrefix}_Window";
 
         private GameObject _windowGameObject;
 
@@ -52,7 +52,7 @@ namespace CSL_SimpleMetrics.UI
 
             _dragHandlerGameObject = CreateDragHandler();
 
-            CreateMouseEvents();
+            CreateDragMouseEvents();
 
             _sprites = new Dictionary<MetricsEnum, SpriteAndLocale>();
             _indicatorSprites = new Dictionary<MetricsEnum, UISprite>();
@@ -104,7 +104,7 @@ namespace CSL_SimpleMetrics.UI
             foreach (MetricsEnum metric in metrics.Keys)
             {
                 var indicatorSprite = _indicatorSprites[metric];
-                SpriteHelper.ChangeSpriteColor(ref indicatorSprite, metrics.Get(metric).Ratio, ConstConfiguration.IndicatorOpacity);
+                SpriteHelper.ChangeSpriteColor(ref indicatorSprite, metrics.Get(metric).Ratio, ConfigurationConstants.IndicatorOpacity);
 
                 _sprites[metric].Sprite.tooltip = SpriteHelper.GetFormattedTooltip(
                     _sprites[metric].Locale, 
@@ -129,7 +129,7 @@ namespace CSL_SimpleMetrics.UI
                     horizontalMargin: horizontalMargin,
                     size: 0.7f,
                     zOrderEnum: WindowZOrderEnum.Indicator,
-                    opacity: ConstConfiguration.IndicatorOpacity,
+                    opacity: ConfigurationConstants.IndicatorOpacity,
                     color: new Color(0f, 0f, 0f)
                 );
 
@@ -149,9 +149,9 @@ namespace CSL_SimpleMetrics.UI
         private GameObject CreateWindowGameObject()
         {
             var gameObject = new GameObject(Name);
-            gameObject.transform.parent = GameObject.Find(ConstConfiguration.AppPrefix).transform;
-            this.width = ConstConfiguration.Width;
-            this.height = ConstConfiguration.Height;
+            gameObject.transform.parent = GameObject.Find(ConfigurationConstants.AppPrefix).transform;
+            this.width = ConfigurationConstants.Width;
+            this.height = ConfigurationConstants.Height;
 
             return gameObject;
         }
@@ -164,8 +164,8 @@ namespace CSL_SimpleMetrics.UI
             panel.isVisible = true;
             panel.canFocus = true;
             panel.isInteractive = true;
-            panel.width = ConstConfiguration.Width;
-            panel.height = ConstConfiguration.Height;
+            panel.width = ConfigurationConstants.Width;
+            panel.height = ConfigurationConstants.Height;
             panel.padding = new RectOffset(5, 5, 5, 5);
             panel.relativePosition = Vector3.zero;
             panel.zOrder = (int)WindowZOrderEnum.Background;
@@ -180,8 +180,8 @@ namespace CSL_SimpleMetrics.UI
             dragHandlerGameObject.transform.localPosition = Vector3.zero;
 
             var dragHandler = dragHandlerGameObject.AddComponent<UIDragHandle>();
-            dragHandler.width = ConstConfiguration.Height / 4;
-            dragHandler.height = ConstConfiguration.Height / 4;
+            dragHandler.width = ConfigurationConstants.Height / 4;
+            dragHandler.height = ConfigurationConstants.Height / 4;
             dragHandler.zOrder = (int)WindowZOrderEnum.Content;
             dragHandler.isInteractive = true;
             dragHandler.target = this;
@@ -198,7 +198,7 @@ namespace CSL_SimpleMetrics.UI
             return dragHandlerGameObject;
         }
 
-        private void CreateMouseEvents()
+        private void CreateDragMouseEvents()
         {
             // Drag indicator visibility
             _bodyPanel.eventMouseEnter += (component, eventParam) =>
