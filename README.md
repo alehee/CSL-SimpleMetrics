@@ -68,6 +68,15 @@ More information about building the mod is available [here](https://skylines.par
 
 Check [credits](#credits) for documentation references and other cool modders which codebases gave me a lot of information.
 
+## Changelog
+
+### 1.0.0
+
+- Added basic metrics bar with color-coded indicators
+- Added drag handler to be able to change bar position
+- Created saving mechanism for bar position
+- Adjusted to multiple screen resolutions
+
 ## Credits and kudos
 
 Other modders whose codebases were helpful while building this mod:
