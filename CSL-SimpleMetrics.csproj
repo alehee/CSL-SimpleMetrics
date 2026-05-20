@@ -58,7 +58,9 @@
     <Compile Include="Configuration\ConfigurationSingleton.cs" />
     <Compile Include="Configuration\ConfigurationConstants.cs" />
     <Compile Include="Extensions\LoadingExtension.cs" />
+    <Compile Include="Factories\MouseHandlerFactory.cs" />
     <Compile Include="Factories\UIFactory.cs" />
+    <Compile Include="Helpers\GameObjectHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\SpriteHelper.cs" />
     <Compile Include="Helpers\LocaleHelper.cs" />

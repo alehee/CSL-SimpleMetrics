@@ -1,6 +1,7 @@
 ﻿using ColossalFramework.UI;
 using CSL_SimpleMetrics.Behaviours;
 using CSL_SimpleMetrics.Configuration;
+using CSL_SimpleMetrics.Helpers;
 using CSL_SimpleMetrics.UI;
 using ICities;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace CSL_SimpleMetrics.Extensions
                 return;
 
             _modGameObject = new GameObject(ConfigurationConstants.AppPrefix);
-            _modGameObject.transform.parent = GetUIViewGameObject().transform;
+            _modGameObject.transform.parent = GameObjectHelper.GetUIViewGameObject().transform;
             _modGameObject.AddComponent<Manager>();
             _modGameObject.AddComponent<Window>();
 
@@ -44,13 +45,6 @@ namespace CSL_SimpleMetrics.Extensions
             }
 
             Logger.Log("Unloaded moddification.");
-        }
-
-        private UIView GetUIViewGameObject()
-        {
-            var allUiViews = GameObject.FindObjectsOfType<UIView>();
-            var mainUiView = allUiViews.Where(v => v.name == "UIView").FirstOrDefault();
-            return mainUiView;
         }
     }
 }
