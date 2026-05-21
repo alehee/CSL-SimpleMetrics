@@ -70,6 +70,11 @@ Check [credits](#credits) for documentation references and other cool modders wh
 
 ## Changelog
 
+### 1.0.1
+
+- Added automatic opening of the corresponding resource panel when clicking a metric icon.
+- Fixed a minor initialization issue.
+
 ### 1.0.0
 
 - Added basic metrics bar with color-coded indicators

@@ -2,24 +2,30 @@
 using CSL_SimpleMetrics.Helpers;
 using CSL_SimpleMetrics.Logging;
 using CSL_SimpleMetrics.Models;
-using System;
-using UnityEngine;
+using System.Collections;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
 
 namespace CSL_SimpleMetrics.Factories
 {
     public class MouseHandlerFactory
     {
+        private UIView _uiView = null;
         private UITabstrip _mainTabstrip = null;
+
+        const int maxFramesToWaitForUI = 60;
 
         public MouseHandlerFactory()
         {
-            Logger.Log("Initializing MouseHandlerFactory.");
-            GetUITabstrip();
+            GetUIComponents();
         }
 
-        private void GetUITabstrip()
+        private void GetUIComponents()
         {
+            if (_uiView == null)
+            {
+                _uiView = GameObjectHelper.GetUIViewGameObject().GetComponent<UIView>();
+            }
+
             if (_mainTabstrip == null)
             {
                 _mainTabstrip = GameObjectHelper.GetUIViewGameObject().FindUIComponent<UITabstrip>("MainToolstrip");
@@ -30,11 +36,11 @@ namespace CSL_SimpleMetrics.Factories
             MetricsEnum metricEnum
         )
         {
-            if (_mainTabstrip == null)
-                GetUITabstrip();
+            if (_mainTabstrip == null || _uiView == null)
+                GetUIComponents();
 
-            if (_mainTabstrip == null)
-                Logger.Log("Could not find MainToolstrip UITabstrip to attach mouse click handler.", LogLevelEnum.Error);
+            if (_mainTabstrip == null || _uiView == null)
+                Logger.Log("Could not find all UI components to attach mouse click handler.", LogLevelEnum.Error);
 
             var metricIndex = GetTabstripMetricIndex(metricEnum);
             if (!metricIndex.HasValue)
@@ -43,11 +49,9 @@ namespace CSL_SimpleMetrics.Factories
             return (component, eventParam) =>
             {
                 _mainTabstrip.selectedIndex = metricIndex.Value;
-                
-                // Optionally switch tab in the panel
-                TrySwitchTab(metricEnum);
 
-                Logger.Log($"Selected {metricEnum} tabstrip index {metricIndex.Value}.");
+                // Optionally switch tab in the panel
+                _uiView.StartCoroutine(TrySwitchTab(metricEnum));
             };
         }
 
@@ -64,12 +68,12 @@ namespace CSL_SimpleMetrics.Factories
                 case MetricsEnum.GarbageIncineration:
                     return 6;
                 case MetricsEnum.Healthcare:
-                case MetricsEnum.ChildCare:     // Additional tab change needed
-                case MetricsEnum.SeniorCare:    // Additional tab change needed
-                case MetricsEnum.Crematorium:   // Additional tab change needed
-                case MetricsEnum.Cemetery:      // Additional tab change needed
+                case MetricsEnum.ChildCare:
+                case MetricsEnum.SeniorCare:
+                case MetricsEnum.Crematorium:
+                case MetricsEnum.Cemetery:
                     return 8;
-                case MetricsEnum.EducationElementary:
+                case MetricsEnum.EducationElementary:   // Additional tab change needed
                 case MetricsEnum.EducationHighSchool:   // Additional tab change needed
                 case MetricsEnum.EducationUniversity:   // Additional tab change needed
                 case MetricsEnum.Library:               // Additional tab change needed
@@ -84,46 +88,93 @@ namespace CSL_SimpleMetrics.Factories
             }
         }
 
-        private void TrySwitchTab(MetricsEnum metricsEnum)
+        private IEnumerator TrySwitchTab(MetricsEnum metricsEnum)
         {
+            yield return null;
+
             switch(metricsEnum)
             {
+                case MetricsEnum.Healthcare:
                 case MetricsEnum.ChildCare:
                 case MetricsEnum.SeniorCare:
                 case MetricsEnum.Crematorium:
                 case MetricsEnum.Cemetery:
-                    SwitchTabInHealthcarePanel(metricsEnum);
+                    yield return WaitAndSwitchTabInHealthcarePanel(metricsEnum);
                     break;
+                case MetricsEnum.EducationElementary:
                 case MetricsEnum.EducationHighSchool:
                 case MetricsEnum.EducationUniversity:
                 case MetricsEnum.Library:
-                    SwitchTabInEducationPanel(metricsEnum);
+                    yield return WaitAndSwitchTabInEducationPanel(metricsEnum);
                     break;
-                default:
-                    return;
             }
         }
 
-        private void SwitchTabInHealthcarePanel(MetricsEnum metricsEnum)
+        private IEnumerator WaitAndSwitchTabInHealthcarePanel(MetricsEnum metricsEnum)
         {
-            switch (metricsEnum)
+            const string panelName = "(Library) HealthInfoViewPanel";
+
+            for (int i = 0; i < maxFramesToWaitForUI; i++)
             {
-                case MetricsEnum.Crematorium:
-                case MetricsEnum.Cemetery:
-                    GameObject.Find("Deathcare").GetComponent<UIButton>().SimulateClick();
-                    break;
-                default:
-                    return;
-            }
+                var uiTabStrip = GameObjectHelper.FindUIComponent<UITabstrip>(panelName, "Tabstrip");
 
-            // TODO
-            throw new NotImplementedException("Switching tabs in the healthcare panel is not implemented yet.");
+                if (uiTabStrip == null || !uiTabStrip.isVisible)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                switch (metricsEnum)
+                {
+                    case MetricsEnum.Healthcare:
+                        uiTabStrip.selectedIndex = 0;
+                        yield break;
+                    case MetricsEnum.ChildCare:
+                        uiTabStrip.selectedIndex = 2;
+                        yield break;
+                    case MetricsEnum.SeniorCare:
+                        uiTabStrip.selectedIndex = 3;
+                        yield break;
+                    case MetricsEnum.Crematorium:
+                    case MetricsEnum.Cemetery:
+                        uiTabStrip.selectedIndex = 1;
+                        yield break;
+                }
+                yield return null;
+            }
         }
 
-        private void SwitchTabInEducationPanel(MetricsEnum metricsEnum)
+        private IEnumerator WaitAndSwitchTabInEducationPanel(MetricsEnum metricsEnum)
         {
-            // TODO
-            throw new NotImplementedException("Switching tabs in the education panel is not implemented yet.");
+            const string panelName = "(Library) EducationInfoViewPanel";
+
+            for (int i = 0; i < maxFramesToWaitForUI; i++)
+            {
+                var uiTabStrip = GameObjectHelper.FindUIComponent<UITabstrip>(panelName, "Tabstrip");
+
+                if (uiTabStrip == null || !uiTabStrip.isVisible)
+                {
+                    yield return null;
+                    continue;
+                }
+
+                switch (metricsEnum)
+                {
+                    case MetricsEnum.EducationElementary:
+                        uiTabStrip.selectedIndex = 0;
+                        yield break;
+                    case MetricsEnum.EducationHighSchool:
+                        uiTabStrip.selectedIndex = 1;
+                        yield break;
+                    case MetricsEnum.EducationUniversity:
+                        uiTabStrip.selectedIndex = 2;
+                        yield break;
+                    case MetricsEnum.Library:
+                        uiTabStrip.selectedIndex = 4;
+                        yield break;
+                }
+                yield return null;
+            }
         }
     }
 }
