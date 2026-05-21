@@ -32,7 +32,7 @@ namespace CSL_SimpleMetrics.Configuration
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Models.Configuration));
-                stream = new StreamWriter(ConstConfiguration.ConfigurationFileName);
+                stream = new StreamWriter(ConfigurationConstants.ConfigurationFileName);
                 serializer.Serialize(stream, _configuration);
                 Logger.Log("Configuration saved");
             }
@@ -53,7 +53,7 @@ namespace CSL_SimpleMetrics.Configuration
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Models.Configuration));
-                stream = new FileStream(ConstConfiguration.ConfigurationFileName, FileMode.Open);
+                stream = new FileStream(ConfigurationConstants.ConfigurationFileName, FileMode.Open);
                 _configuration = (Models.Configuration)serializer.Deserialize(stream);
                 Logger.Log("Configuration loaded");
             }

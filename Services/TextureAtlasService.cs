@@ -36,7 +36,7 @@ namespace CSL_SimpleMetrics.Services
 
             UITextureAtlas atlas = ScriptableObject.CreateInstance<UITextureAtlas>();
             atlas.material = material;
-            atlas.name = $"{ConstConfiguration.AppPrefix}_Atlas";
+            atlas.name = $"{ConfigurationConstants.AppPrefix}_Atlas";
 
             var spriteCounter = 0;
             foreach (var spriteNameAndPath in spriteNamesAndPaths)
@@ -91,12 +91,12 @@ namespace CSL_SimpleMetrics.Services
 
             foreach (var iconName in iconNames)
             {
-                result[iconName] = $"{ConstConfiguration.AppPrefix}.Assets.Icons.{iconName}.png";
+                result[iconName] = $"{ConfigurationConstants.AppPrefix}.Assets.Icons.{iconName}.png";
             }
 
             foreach (var backgroundName in backgroundNames)
             {
-                result[backgroundName] = $"{ConstConfiguration.AppPrefix}.Assets.Backgrounds.{backgroundName}.png";
+                result[backgroundName] = $"{ConfigurationConstants.AppPrefix}.Assets.Backgrounds.{backgroundName}.png";
             }
 
             return result;
