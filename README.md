@@ -10,6 +10,8 @@
 
 Lightweight metrics bar mod for Cities: Skylines. It adds a compact, draggable overlay that shows service capacity vs. usage with color-coded indicators on the in-game UI.
 
+For more detailed information, simply click a resource icon to open the corresponding in-game insights panel.
+
 <p align="center">
   <img src="Assets/Docs/Banner.png" alt="CSL-SimpleMetrics banner" />
 </p>
@@ -72,8 +74,8 @@ Check [credits](#credits) for documentation references and other cool modders wh
 
 ### 1.0.1
 
-- Added automatic opening of the corresponding resource panel when clicking a metric icon.
-- Fixed a minor initialization issue.
+- Added automatic opening of the corresponding resource panel when clicking a metric icon
+- Fixed a minor initialization issue
 
 ### 1.0.0
 
