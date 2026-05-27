@@ -67,7 +67,6 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Logging\Models\LogLevelEnum.cs" />
     <Compile Include="Models\Configuration.cs" />
-    <Compile Include="Models\Helpers\Resolution.cs" />
     <Compile Include="Models\Helpers\SpriteAndLocale.cs" />
     <Compile Include="Models\Metric.cs" />
     <Compile Include="Models\MetricsCombined.cs" />

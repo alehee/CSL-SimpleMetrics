@@ -72,6 +72,12 @@ Check [credits](#credits) for documentation references and other cool modders wh
 
 ## Changelog
 
+### 1.0.2
+
+- Fixed garbage ratio 0% when there is no garbage dump
+- Fixed re-rendering mechanic on loading
+- Fixed icons positioning on various resolutions
+
 ### 1.0.1
 
 - Added automatic opening of the corresponding resource panel when clicking a metric icon

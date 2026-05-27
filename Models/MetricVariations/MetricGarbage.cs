@@ -9,7 +9,7 @@
 
         public override float GetRatio()
         {
-            return Capacity != 0 ? 1 - (Consumption / Capacity) : 0;
+            return Capacity != 0 ? 1 - (Consumption / Capacity) : 1;
         }
     }
 }

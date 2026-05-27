@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Logger = CSL_SimpleMetrics.Logging.Logger;
-using Resolution = CSL_SimpleMetrics.Models.Helpers.Resolution;
 
 namespace CSL_SimpleMetrics.UI
 {
@@ -24,11 +23,12 @@ namespace CSL_SimpleMetrics.UI
         private GameObject _dragHandlerGameObject;
 
         private UITextureAtlas _atlas;
+
+        private bool _spritesCreated = false;
         private Dictionary<MetricsEnum, SpriteAndLocale> _sprites;
         private Dictionary<MetricsEnum, UISprite> _indicatorSprites;
 
         private ConfigurationSingleton _configurationSingleton;
-        private Resolution _resolution;
         private UIFactory _uiFactory;
         private MouseHandlerFactory _mouseHandlerFactory;
         private MetricsService _metricsService;
@@ -63,13 +63,10 @@ namespace CSL_SimpleMetrics.UI
 
             _metricsService = MetricsService.GetInstance();
             _metricsService.MetricsUpdated += OnMetricsUpdated;
-
-            CreateMetricsSprites();
         }
 
         private void LoadConfiguration()
         {
-            _resolution = ScreenHelper.GetResolution();
             _configurationSingleton = ConfigurationSingleton.GetInstance();
 
             Vector3 windowPosition;
@@ -85,6 +82,13 @@ namespace CSL_SimpleMetrics.UI
 
         private void OnMetricsUpdated()
         {
+            if (!_spritesCreated)
+            {
+                Logger.Log("Creating sprites for the first time.");
+                CreateMetricsSprites();
+                _spritesCreated = true;
+            }
+            
             try
             {
                 OnMetricsUpdated(_indicatorSprites);
@@ -93,6 +97,7 @@ namespace CSL_SimpleMetrics.UI
             {
                 Logger.LogException("Error updating metrics", ex);
                 Logger.Log("Recreating sprites to fix potential issues.");
+                DestroyMetricsSprites();
                 CreateMetricsSprites();
             }
         }
@@ -123,7 +128,8 @@ namespace CSL_SimpleMetrics.UI
 
         private void CreateMetricsSprites()
         {
-            float horizontalMargin = (0.0133f * SpriteHelper.GetHorizontalMultiplier(_resolution));
+            float horizontalMargin = ConfigurationConstants.WindowLeftPadding;
+
             foreach (MetricsEnum metric in _metricsService.GetMetrics().Keys)
             {
                 _indicatorSprites[metric] = _uiFactory.CreateSprite(
@@ -154,7 +160,33 @@ namespace CSL_SimpleMetrics.UI
 
                 _sprites[metric] = new SpriteAndLocale { Sprite = iconSprite, Locale = spriteLocaleString };
 
-                horizontalMargin += (0.06f * SpriteHelper.GetHorizontalMultiplier(_resolution));
+                horizontalMargin += ConfigurationConstants.IconRightMargin;
+            }
+        }
+
+        private void DestroyMetricsSprites()
+        {
+            foreach (var sprite in _indicatorSprites.Values)
+            {
+                try
+                {
+                    GameObject.Destroy(sprite.gameObject);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogException("Error destroying indicator sprite", ex);
+                }
+            }
+            foreach (var sprite in _sprites.Values)
+            {
+                try
+                {
+                    GameObject.Destroy(sprite.Sprite.gameObject);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogException("Error destroying indicator sprite", ex);
+                }
             }
         }
 
